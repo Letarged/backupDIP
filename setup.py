@@ -17,13 +17,14 @@ class CustomInstallCommand(install):
             subprocess.call(['sudo', 'apt-get', 'install', '-y', 'docker.io'])
 
         subprocess.call(['docker', 'run', 'ubuntu']) # pulling the base image (ubuntu is the base image)
-        subprocess.call(['docker', 'build', '-t', 'dnmap:v1', 'imagesFromDocker/nmap/DockerFile'])
-        subprocess.call(['docker', 'build', '-t', 'dcewl:v1', 'imagesFromDocker/cewl/DockerFile'])
-        subprocess.call(['docker', 'build', '-t', 'dshcheck:v1', 'imagesFromDocker/shcheck/DockerFile'])
-        subprocess.call(['docker', 'build', '-t', 'dwhatweb:v1', 'imagesFromDocker/whatweb/DockerFile'])
-        subprocess.call(['docker', 'build', '-t', 'dmasscan:v1', 'imagesFromDocker/masscan/DockerFile'])
-        subprocess.call(['docker', 'build', '-t', 'ddnsrecon:v1', 'imagesFromDocker/dnsrecon/DockerFile'])
-        subprocess.call(['docker', 'build', '-t', 'dgobuster:v1', 'imagesFromDocker/gobuster/DockerFile'])
+        subprocess.call(['docker', 'build', '-t', 'dnmap:v1', './imagesFromDocker/nmap'])
+        subprocess.call(['docker', 'build', '-t', 'dcewl:v1', './imagesFromDocker/cewl'])
+        subprocess.call(['docker', 'build', '-t', 'dshcheck:v1', './imagesFromDocker/shcheck'])
+        subprocess.call(['docker', 'build', '-t', 'dwhatweb:v1', './imagesFromDocker/whatweb'])
+        subprocess.call(['docker', 'build', '-t', 'dmasscan:v1', './imagesFromDocker/masscan'])
+        subprocess.call(['docker', 'build', '-t', 'ddnsrecon:v1', './imagesFromDocker/dnsrecon'])
+        subprocess.call(['docker', 'build', '-t', 'dgobuster:v1', './imagesFromDocker/gobuster'])
+        subprocess.call(['docker', 'build', '-t', 'gsslscan:v1', './imagesFromDocker/sslscan'])
 
 
 setup(
