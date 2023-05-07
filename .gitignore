@@ -1,0 +1,14 @@
+# Compiled Python files
+*.pyc
+
+# Python cache directories
+__pycache__/
+
+# Build directory
+build/
+
+# Distribution directory
+dist/
+
+# Egg-info directory
+*.egg-info/
