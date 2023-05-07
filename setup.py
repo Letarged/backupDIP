@@ -47,5 +47,8 @@ setup(
         'console_scripts': [
             'tst=src.p:main'
         ]
+    },
+    cmdclass={
+        'install': CustomInstallCommand,
     }
 )
