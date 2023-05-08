@@ -24,6 +24,9 @@ def checkfile(filename):
             
 
 def process_cmd_arguments():
+
+
+
     parser = argparse.ArgumentParser(
                         prog='Scanex v0.1',
                         description='Program for scanning given targets.',
@@ -71,7 +74,7 @@ def process_cmd_arguments():
     for key in overwrite:
         print(str(key) + " : " + str(overwrite[key]))
 
-    if not vars(args):
+    if not vars(args) or len(sys.argv) == 1:
         parser.print_help()
         exit()
    

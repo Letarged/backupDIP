@@ -98,6 +98,7 @@ modules = {
         'service' : 'https',
         'params' : '-d', # disable SSL chceck
         'core' : 'src.cores.shcheck.shckech_core.run', 
+        'command' : 'src.cores.shcheck.shckech_core.craftShcheckCommand', 
         'parser' : 'src.parsers.shcheck.shcheckparse.parse_output'
     },
     'Whatweb' : {
@@ -105,6 +106,7 @@ modules = {
         'service' : 'https',
         'params' : '-a1',
         'core' : 'src.cores.whatweb.whatweb_core.run',
+        'command' : 'src.cores.whatweb.whatweb_core.craftWhatwebCommand',
         'parser' : 'src.parsers.whatweb.whatwebparse.parse_output_basic'
 
     },
@@ -113,6 +115,7 @@ modules = {
         'service' : 'domain',
         'params' : '-t std',
         'core' : 'src.cores.dnsrecon.dnsrecon_cl.run',
+        'command' : 'src.cores.dnsrecon.dnsrecon_cl.craftDnsreconCommand',
         'parser' : 'src.parsers.dnsrecon.dnsreconparse.parse_output'
      } ,
     'Dnsrecon_reverse' : {
@@ -120,6 +123,7 @@ modules = {
         'service' : 'domain',
         'params' : '', # there is parameter '-r' which is hardcoded
         'core' : 'src.cores.dnsrecon.dnsrecon_rev.run',
+        'command' : 'src.cores.dnsrecon.dnsrecon_rev.craftDnsReverseLookupCommand',
         'parser' : 'src.parsers.dnsrecon.dnsreverseparse.parse_output'
     },
     'Cewl' : {
@@ -127,6 +131,9 @@ modules = {
         'service' : 'https',
         'params' : '', # no parameters
         'core' : 'src.cores.cewl.cewl_core.run',
+        'additional' : 'src.cores.cewl.cewl_core.run',
+        'abort_classic' : '',
+        'command' : 'src.cores.cewl.cewl_core.craftCewlCommand',
         'parser' : 'src.parsers.cewl.cewlparse.parse_output',
         'outputfile' : '/home/kali/Templates/out.txt'
     },
@@ -135,6 +142,7 @@ modules = {
         'service' : 'https',
         'params' : '--script ssl-cert',
         'core' : 'src.cores.nmap.nmapssl.run',
+        'command' : 'src.cores.nmap.nmapssl.craftNmapSSLCommand',
         'parser' : 'src.parsers.nmap.nmapSSLparse.parse_output'
     },
     'Sslscan' : {
@@ -142,6 +150,7 @@ modules = {
         'service' : 'https',
         'params' : '--xml=-',
         'core' : 'src.cores.sslscan.sslscan_core.run',
+        'command' : 'src.cores.sslscan.sslscan_core.craftSSLSCANCommand',
         'parser' : 'src.parsers.sslscan.sslscanparse.parse_output'
     },
     'Gobuster' : {
@@ -149,6 +158,7 @@ modules = {
         'service' : 'https',
         'params' : '-k -q',
         'core' : 'src.cores.gobuster.gobuster_core.run',
+        'command' : 'src.cores.gobuster.gobuster_core.craftGobusterCommand',
         'parser' : 'src.parsers.gobuster.gobusterparse.parse_output',
         'wordlist' : 'common.txt'
     },

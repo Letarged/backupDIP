@@ -15,13 +15,3 @@ def craftSSLSCANCommand(target, port, params):
     print(command)
     return command
 
-
-
-def run(target,port, modulename, params):
-    command = craftSSLSCANCommand(target, port, params)
-    result = launchTheScan(
-        modules[modulename], 
-        command, 
-        )
-
-    print(result)

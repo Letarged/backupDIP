@@ -3,28 +3,37 @@ from src.dckrChiefExecutive import launchTheScan
 from src.cores.helper import getFullUrl_from_URI
 from termcolor import colored
 
-def craftCewlCommand(target, port, params, outputfile):
+def craftCewlCommand(target,port,params):
     cewl_target = getFullUrl_from_URI(target, port, 1)
     command = (
         str(params) +
         " " +
-        cewl_target #+ 
-       # " -w " +
-        #outputfile
+        cewl_target
     )
-    print(command)
+    return " --help >> /dev/null"
+
+
+def craftCewlCommand2(target, port, outputfile):
+    cewl_target = getFullUrl_from_URI(target, port, 1)
+    command = (
+        
+        cewl_target + 
+        " -w " +
+        outputfile
+    )
     return command
 
 
 
-def run(target,port, modulename, params):
-    command = craftCewlCommand(target, port, params, modules[modulename]['outputfile'])
+# def run(target,port, modulename, params):
+def run(cmd, target, port, module):
+    command = craftCewlCommand2(target, port, module['outputfile'])
     result = launchTheScan(
-        modules[modulename], 
+        module, 
         command, 
         )
 
-    with open(modules[modulename]['outputfile'], "w") as file:
+    with open(module['outputfile'], "w") as file:
         for element in result:
             file.write(element + "\n")
-    print(colored("Custom word list generated into: ", 'grey') + colored(modules[modulename]['outputfile'], 'green'))
+    print(colored("Custom word list generated into: ", 'grey') + colored(module['outputfile'], 'green'))

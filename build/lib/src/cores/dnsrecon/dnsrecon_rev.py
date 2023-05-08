@@ -3,8 +3,8 @@ from src.dckrChiefExecutive import launchTheScan
 from src.cores.helper import check_ip_or_url, ip_to_range
 import socket
 
-def craftDnsReverseLookupCommand(target, params, output_format):
-
+def craftDnsReverseLookupCommand(target, port, params):
+    output_format = '--json=/dev/stdout'
     if check_ip_or_url(target) == "ip":
         dns_target = target
     elif check_ip_or_url(target) == "url":
@@ -24,14 +24,14 @@ def craftDnsReverseLookupCommand(target, params, output_format):
     return command
 
 
-def run(target,port, modulename, params):
-    output_format = '--json=/dev/stdout'
-    dnsrecon_command = craftDnsReverseLookupCommand(target, params, output_format)
-    result = launchTheScan(
-        modules[modulename], 
-        dnsrecon_command, 
-        )
-    print(result)
+# def run(target,port, modulename, params):
+    
+#     dnsrecon_command = craftDnsReverseLookupCommand(target, params, output_format)
+#     result = launchTheScan(
+#         modules[modulename], 
+#         dnsrecon_command, 
+#         )
+#     print(result)
 
 """
 PRidať DO modules 'craft output' a 'medzikrok-output-format'

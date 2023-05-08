@@ -4,7 +4,9 @@ from src.dckrChiefExecutive import launchTheScan
 from src.cores.helper import check_ip_or_url
 import socket
 
-def craftDnsreconCommand(target, params, output_format):
+def craftDnsreconCommand(target, port, params):
+    output_format = '--json=/dev/stdout'
+
 
     if check_ip_or_url(target) == "ip":
         dns_target = socket.gethostbyaddr(target)[0]
@@ -22,12 +24,3 @@ def craftDnsreconCommand(target, params, output_format):
     )
     return command
 
-
-def run(target,port, modulename, params):
-    output_format = '--json=/dev/stdout'
-    dnsrecon_command = craftDnsreconCommand(target, params, output_format)
-    result = launchTheScan(
-        modules[modulename], 
-        dnsrecon_command, 
-        )
-    print(result)

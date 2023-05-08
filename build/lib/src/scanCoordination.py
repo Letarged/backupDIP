@@ -12,20 +12,28 @@ from src.secondary import dockerimages
 from src.secondary.dockerimages import meta
 import importlib
 import importlib.util
+import appdirs
+from src.dckrChiefExecutive import launchTheScan
 
 settings = configparser.RawConfigParser()
 #settings.read('src/secondary/conf/settings.cfg') 
 #settings.read(os.path.join(sys.path[0], "src/secondary/conf/settings.cfg"), encoding='utf-8')
 
 def get_type_one_file_because_possible_overwrite(overwrite, dir_path):
+    config_dir_in_this_system = appdirs.user_config_dir("dipconf")
+    type_one_file_by_default = os.path.join(config_dir_in_this_system, "run.cfg")
+
     if not overwrite['runconfig'] == None:
         type_one_file = overwrite['runconfig']
     else:
-        type_one_file = os.path.join(dir_path, "secondary", "conf", "types", "typeone.cfg") 
+        type_one_file = type_one_file_by_default
+        #type_one_file = os.path.join(dir_path, "secondary", "conf", "types", "typeone.cfg") 
 
     if not is_file_readable(type_one_file):
         sys.stderr.write(colored(f"Warning: file \"{type_one_file}\" doesn't exist or is not readable. Using the defaults.\n", 'red'))
-        type_one_file = os.path.join(dir_path, "secondary", "conf", "types", "typeone.cfg")
+        # type_one_file = os.path.join(dir_path, "secondary", "conf", "types", "typeone.cfg")
+        type_one_file = type_one_file_by_default
+    print("RETURNING WHAT? " + type_one_file)
     return type_one_file
 
 def get_modules_because_possible_overwrite(overwrite, default_modules):
@@ -34,7 +42,6 @@ def get_modules_because_possible_overwrite(overwrite, default_modules):
         if not is_file_readable(module_file_path):
             sys.stderr.write(colored(f"Warning: file \"{module_file_path}\" doesn't exist or is not readable. Using the defaults.\n", 'red'))
             return default_modules
-        print("CONTINUINGGGGGGGGGGGG")
         module_name = os.path.splitext(os.path.basename(module_file_path))[0]
         spec = importlib.util.spec_from_file_location(module_name, module_file_path)
         module = importlib.util.module_from_spec(spec)
@@ -273,20 +280,62 @@ def performScanType1(targetS, overwrite):
                     path_of_parser, main_func_inside_module = divideField(modules[switched_on_module]['core'])
                     if main_func_inside_module == 'NONE':
                         print("NO DOCKER RUN FOR: " + str(main_func_inside_module))
+                        # TODO
                         continue
-                    correctModule = importlib.import_module(path_of_parser)
+                    path_of_command_cretor, command_creator_fun = divideField(modules[switched_on_module]['command'])
+                    correctModule_of_main_fun = importlib.import_module(path_of_parser)
+                    correctModule_of_create_command_fun = importlib.import_module(path_of_command_cretor)
+                    print("MODULES: " + str(modules[switched_on_module].keys()))
+                    
+                    
                     try:
-                        getattr(
-                            correctModule, 
-                            main_func_inside_module
+                        cmd = getattr(
+                                correctModule_of_create_command_fun,
+                                command_creator_fun
+                                )(
+                                    target,
+                                    open_port,
+                                    modules[switched_on_module]['params']
+                                )
+                        
+                        print()
+                        if 'additional' in modules[switched_on_module]:
+                            path_of_additional, func_of_additional = divideField(modules[switched_on_module]['additional'])
+                            correctModule_of_additional = importlib.import_module(path_of_additional)
+                            getattr(
+                                correctModule_of_additional,
+                                func_of_additional
                             )(
+                                cmd,
                                 target,
-                                open_port, 
-                                switched_on_module, 
-                                modules[switched_on_module]['params']
+                                open_port,
+                                modules[switched_on_module]
                             )
+                        if not 'abort_classic' in modules[switched_on_module]: 
+                            print(launchTheScan(modules[switched_on_module],cmd))
                     except:
+                        print(switched_on_module + " finished with error..")
                         continue
+                    
+                    # try:
+                    #     cmd = getattr(
+                    #         correctModule_of_create_command_fun,
+                    #         command_creator_fun
+                    #         )(
+                    #             target,
+                    #             open_port,
+                    #             modules['params']
+                    #         )
+                    #     print(switched_on_module + " - CMD: " + cmd)
+                    #     exit()
+                    #     getattr(
+                    #         correctModule_of_main_fun, 
+                    #         main_func_inside_module
+                    #         )(    print("Este fajn")
+
+                    # except:
+                    #     print("UPSIK")
+                    #     continue
 
     return
         

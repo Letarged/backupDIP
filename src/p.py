@@ -34,6 +34,10 @@ def check_connected():
 start_time = time.time()
 
 def main():
+    if not os.getuid() == 0:
+        exit_code = 126
+        sys.exit("Error {}: The tool must be executed as a superuser. Exiting now..".format(exit_code))
+
     print("\n\n")
     check_connected()
     scanType, targetS, overwritten = argParser.process_cmd_arguments()
