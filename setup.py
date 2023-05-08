@@ -17,6 +17,8 @@ PACKAGE_NAME = "DIP"
 def copy_config():
     config_dir_in_this_system = appdirs.user_config_dir("dipconf")
 
+    if not os.path.exists(appdirs.user_config_dir()):
+        os.mkdir(appdirs.user_config_dir())
     if not os.path.exists(config_dir_in_this_system):
         os.mkdir(config_dir_in_this_system)
 
@@ -35,7 +37,7 @@ def copy_config():
     file_path = "src/secondary/dockerimages.py"
     destination_cfg_file = os.path.join(config_dir_in_this_system, "dipmodules.py")
     source_cfg_file = os.path.join(current_path, file_path)
-    
+
     shutil.copyfile(source_cfg_file, destination_cfg_file) 
 
     # install_dir = setuptools.distutils.sysconfig.get_python_lib()
