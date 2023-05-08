@@ -32,3 +32,10 @@ def run(target,port, modulename, params):
         dnsrecon_command, 
         )
     print(result)
+
+"""
+PRidať DO modules 'craft output' a 'medzikrok-output-format'
+Tym sa odstrani nutnost pisat launchTheScan() do kazdeho ModuleNotFoundError
+
+Potom sa pozriet na FTP anon
+"""

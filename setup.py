@@ -4,8 +4,51 @@
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 import subprocess
+import setuptools
+import shutil
+import appdirs
+import json
+import os
+import sys
+
+destination_cfg_file = ""
+PACKAGE_NAME = "DIP"
+
+def copy_config():
+    config_dir_in_this_system = appdirs.user_config_dir("dipconf")
+
+    if not os.path.exists(config_dir_in_this_system):
+        os.mkdir(config_dir_in_this_system)
+
+    destination_cfg_file = os.path.join(config_dir_in_this_system, "run.cfg")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_dir) # set the current working directory to the path of the script
+    current_path = os.getcwd()
+    file_path = "src/secondary/conf/types/typeone.cfg"
+    source_cfg_file = os.path.join(current_path, file_path)
+
+    print("SRC: " + source_cfg_file)
+    print("DST: " + destination_cfg_file)
+
+    shutil.copyfile(source_cfg_file, destination_cfg_file) 
+
+    file_path = "src/secondary/dockerimages.py"
+    destination_cfg_file = os.path.join(config_dir_in_this_system, "dipmodules.py")
+    source_cfg_file = os.path.join(current_path, file_path)
+    
+    shutil.copyfile(source_cfg_file, destination_cfg_file) 
+
+    # install_dir = setuptools.distutils.sysconfig.get_python_lib()
+    # source_dir = os.path.join(install_dir, PACKAGE_NAME, 'src')
+    # file_path = os.path.join(source_dir, "config_mapping.cfg")
+    # os.makedirs(source_dir, exist_ok=True)
+    # print("#################################")
+    # print("Filepath: " + str(file_path))
+    # with open(file_path, "w") as f:
+        # f.write(destination_cfg_file)
 
 
+    
 class CustomInstallCommand(install):
     def run(self):
         install.run(self)
@@ -28,14 +71,16 @@ class CustomInstallCommand(install):
 
 
 setup(
-    name='DIP',
+    name=PACKAGE_NAME,
     version='0.1.0',
     author='Michal Rajecký',
     author_email='xrajec01@fit.vutbr.cz',
     packages= find_packages(),
     package_data={
         '': ['*.cfg'],
+      #  'DIP': ['../src/config_mapping.cfg'],
     },
+   #data_files=[('', ['../src/config_mapping.cfg'])],
     install_requires=[
         'docker==2.0.0',
         'netifaces==0.11.0',
@@ -53,3 +98,5 @@ setup(
         'install': CustomInstallCommand,
     }
 )
+
+copy_config()

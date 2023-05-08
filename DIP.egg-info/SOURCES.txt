@@ -8,6 +8,7 @@ DIP.egg-info/top_level.txt
 src/__init__.py
 src/argParser.py
 src/classes.py
+src/config_mapping.cfg
 src/dckrChiefExecutive.py
 src/funcs.py
 src/p.py

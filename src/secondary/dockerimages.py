@@ -157,5 +157,6 @@ modules = {
         'service' : 'ftp',
         'core' : 'src.cores.ftpanon.ftpanon_core.run',
         'params' :''
-    }
+    },
+    'vag' :{}
 }

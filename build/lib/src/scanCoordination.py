@@ -11,10 +11,62 @@ from termcolor import colored
 from src.secondary import dockerimages
 from src.secondary.dockerimages import meta
 import importlib
+import importlib.util
 
 settings = configparser.RawConfigParser()
 #settings.read('src/secondary/conf/settings.cfg') 
 #settings.read(os.path.join(sys.path[0], "src/secondary/conf/settings.cfg"), encoding='utf-8')
+
+def get_type_one_file_because_possible_overwrite(overwrite, dir_path):
+    if not overwrite['runconfig'] == None:
+        type_one_file = overwrite['runconfig']
+    else:
+        type_one_file = os.path.join(dir_path, "secondary", "conf", "types", "typeone.cfg") 
+
+    if not is_file_readable(type_one_file):
+        sys.stderr.write(colored(f"Warning: file \"{type_one_file}\" doesn't exist or is not readable. Using the defaults.\n", 'red'))
+        type_one_file = os.path.join(dir_path, "secondary", "conf", "types", "typeone.cfg")
+    return type_one_file
+
+def get_modules_because_possible_overwrite(overwrite, default_modules):
+    if not overwrite['modulefile'] == None:
+        module_file_path = overwrite['modulefile']
+        if not is_file_readable(module_file_path):
+            sys.stderr.write(colored(f"Warning: file \"{module_file_path}\" doesn't exist or is not readable. Using the defaults.\n", 'red'))
+            return default_modules
+        print("CONTINUINGGGGGGGGGGGG")
+        module_name = os.path.splitext(os.path.basename(module_file_path))[0]
+        spec = importlib.util.spec_from_file_location(module_name, module_file_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        if 'modules' not in module.__dict__:
+            sys.stderr.write(colored(f"Warning: file \"{module_file_path}\" doesn't contain \"modules\" dict. Using the defaults.\n", 'red'))
+        else:
+            module_result = module.modules
+
+    else:
+        module_result = default_modules
+
+    return module_result
+
+def is_file_readable(filename):
+    if os.access(filename, os.R_OK):
+        return True
+    else:
+        return False
+
+def try_to_read_file(filename):
+    filepath = os.path.join(os.path.abspath(os.path.dirname(__file__)), filename)
+    if os.path.exists(filepath):
+        print("TRYING TO OPEN: " + filename)
+        with open("src/" +filename, "r") as f:
+            content = f.read()
+            return content
+    else:
+        print(f"NOT EXISTS: {filepath}.")
+        exit()
+
 
 def print_banner(address):
     line = "------- " + address + " -------"
@@ -27,7 +79,7 @@ def print_banner(address):
 # also checks if there is a record in modules (dockerImages)
 # if not BUT NOT SWITCHED_ON -> warning
 # if not AND TRIED TO USE -> error
-def get_switched_on(config):
+def get_switched_on(config, modules):
     # enabled_sections = []
     # for section in config.sections():
     #     print(section)
@@ -45,7 +97,7 @@ def get_switched_on(config):
     enabled_sections = []
     for section in config.sections():
         if section[-2:] == '_s': continue # "nmap_s" and "masscan_s" will be ignored
-        if not module_exists(section):
+        if not module_exists(section, modules):
             not_eixsting = True
         else:
             not_eixsting = False
@@ -118,8 +170,8 @@ def gonna_be_scanned(lst, interface, logic):
                 return True
         return False
     
-def module_exists(module_from_config):
-    if module_from_config in dockerimages.modules.keys():
+def module_exists(module_from_config, modules):
+    if module_from_config in modules.keys():
         return True
     else:
         return False
@@ -174,21 +226,27 @@ def service_check(module_service, real_services):
     else:
         return False
 
-def performScanType1(targetS, debug_on):
+def performScanType1(targetS, overwrite):
 
     config = configparser.RawConfigParser()
     settings = configparser.RawConfigParser()
 
+
     dir_path = os.path.dirname(os.path.abspath(__file__))
-    config_file = os.path.join(dir_path, "secondary", "conf", "settings.cfg")
-    # settings.read('src/secondary/conf/settings.cfg') 
-    settings.read(config_file) 
-    type_one_file = os.path.join(dir_path, settings['Path']['typeoneConf']) 
-    print(type_one_file)
+
+    type_one_file = get_type_one_file_because_possible_overwrite(overwrite, dir_path)
+    modules = get_modules_because_possible_overwrite(overwrite, dockerimages.modules)
+
+    settings_file = os.path.join(dir_path, "secondary", "conf", "settings.cfg") 
+
     config.read(type_one_file)
+    settings.read(settings_file)
+
+    print("HERE: " + type_one_file)
     print(settings.sections())
     
-    switched_ons = get_switched_on(config)
+    switched_ons = get_switched_on(config, modules)
+    print(switched_ons)
     found_targets = portScanningPhase(targetS, config, settings)
     # found_targets = portScanningPhase(targetS, settings)
     # for target in list(found_targets.keys()):
@@ -196,7 +254,7 @@ def performScanType1(targetS, debug_on):
     #     for interestingport in found_targets[target].not_closed_not_filtered_ports():
     #         print(str(target) + " - " + str(interestingport.num) + " " + str(interestingport.port_service))
     
-    print(switched_ons)
+    
     
 
     for target in list(found_targets.keys()):
@@ -210,11 +268,9 @@ def performScanType1(targetS, debug_on):
 
             for open_port in ports:
 
-            #services = [x.port_service for x in ports]
-            #print(switched_on_module)
-            #print(str(dockerimages.modules[switched_on_module]))
-                if (dockerimages.modules[switched_on_module]['service'] == open_port.port_service):
-                    path_of_parser, main_func_inside_module = divideField(dockerimages.modules[switched_on_module]['core'])
+           
+                if (modules[switched_on_module]['service'] == open_port.port_service):
+                    path_of_parser, main_func_inside_module = divideField(modules[switched_on_module]['core'])
                     if main_func_inside_module == 'NONE':
                         print("NO DOCKER RUN FOR: " + str(main_func_inside_module))
                         continue
@@ -227,73 +283,26 @@ def performScanType1(targetS, debug_on):
                                 target,
                                 open_port, 
                                 switched_on_module, 
-                                dockerimages.modules[switched_on_module]['params']
+                                modules[switched_on_module]['params']
                             )
                     except:
                         continue
 
     return
         
-    for target in list(found_targets.keys()):
-        print_banner(target)
-       
-        if (found_targets[target] == None):
-            print(colored("..probably down", 'red'))
-            continue
-        for interestingport in found_targets[target].not_closed_not_filtered_ports():
-            match interestingport.port_service:
-                case "https":
-                        if config['Gobuster'].getboolean('switched_on'):
-                            gobuster_command, params = assist.craftGobusterCommand(found_targets[target], interestingport, config)
-                            loading_thread = threading.Thread(target=display_loading)
-                            loading_thread.start()
-                            gobuster_result = funcs.launchTheScan("gobuster", gobuster_command, params)
-                            loading_thread.join()
-                            # print(gobuster_result)
-                            print("Gobuster : " + str(gobuster_result)[:50])
-
-                        if config['Whatweb'].getboolean('switched_on'):
-                            # whatweb_command, params = assist.craftWhatwebCommand(found_targets[target], interestingport, config, settings['WhatwebOutput']['output'])
-                            whatweb_command, params = assist.craftWhatwebCommand(target, interestingport, config, settings['WhatwebOutput']['output'])
-                            whatweb_result=funcs.launchTheScan("whatweb",whatweb_command, params)
-                            # print(whatweb_result)
-                            print("Whatweb : " + str(whatweb_result))
-
-                        if config['Nmapssl'].getboolean('switched_on'):
-                            nmapssl_command, params = assist.craftNmapSSLCommand(found_targets[target], interestingport, config, settings['NmapOutput']['output'])
-                            nmapssl_result = funcs.launchTheScan("nmap", nmapssl_command, params) 
-                            # print(nmapssl_result)
-                            print("Nmapssl : " + str(nmapssl_result)[:50])
-
-                        if config['Cewl'].getboolean('switched_on'):
-                            cewl_command, params = assist.craftCewlCommand(found_targets[target], interestingport, config)
-                            cewl_result = funcs.launchTheScan("cewl", cewl_command, params)
-                            # print(cewl_result)
-                            print("Cewl : " + str(cewl_result)[:20])
-
-                        if config['Shcheck'].getboolean('switched_on'):
-                            try:
-                                """ Following line ensures that shcheck will get https://site.org and not IP address, because in that case shcheck gives an error"""
-                                found_targets[target].address = target
-                                shcheck_command, params = assist.craftShcheckCommand(found_targets[target], interestingport, config, settings['ShcheckOutput']['output'])
-                                shcheck_result = funcs.launchTheScan("shcheck", shcheck_command, params)
-                            except:
-                                shcheck_result = ""
-                            print(shcheck_result)
-
-                case "domain":
-                        if config['Dnsrecon'].getboolean('switched_on'):
-                            dnsrecon_command, params = assist.craftDnsreconCommand(found_targets[target], config, settings['DnsreconOutput']['output'])
-                            dnsrecon_result = funcs.launchTheScan("dnsrecon", dnsrecon_command, params)
-                            print(str(dnsrecon_result))
-                            dnsrecon_command, params = assist.craftDnsReverseLookupCommand(found_targets[target], config, settings['DnsreconOutput']['output'])
-                            dnsrecon_result = funcs.launchTheScan("dnsrecon", dnsrecon_command, params)
-                            print(str(dnsrecon_result))
                         
-def performScanType0(scan_after_discovery, debug_on):
-    
+def performScanType0(scan_after_discovery):
+
     config = configparser.RawConfigParser()
-    config.read(settings['Path']['typezeroConf']) 
+    settings = configparser.RawConfigParser()
+
+    dir_path = os.path.dirname(os.path.abspath(__file__))
+    config_file = os.path.join(dir_path, "secondary", "conf", "settings.cfg")
+    # settings.read('src/secondary/conf/settings.cfg') 
+    settings.read(config_file) 
+    type_zero_file = os.path.join(dir_path, settings['Path']['typezeroConf'])
+    config = configparser.RawConfigParser()
+    config.read(type_zero_file) 
 
     our_interfaces = getInterfaces(config['Interfaces'], config['Logic'].getboolean('negative'))
     interfaces = netifaces.interfaces()
@@ -318,10 +327,10 @@ def performScanType0(scan_after_discovery, debug_on):
         case '0':
             pass
         case '1':
-            performScanType1(discovery_result[1], debug_on)
+            performScanType1(discovery_result[1])
         case '2':
-            performScanType2(discovery_command[1], debug_on)
+            performScanType2(discovery_command[1])
 
 
-def performScanType2(targetS, debug_on):
+def performScanType2(targetS):
     pass 
