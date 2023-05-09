@@ -12,6 +12,5 @@ def craftSSLSCANCommand(target, port, params):
        # " -w " +
         #outputfile
     )
-    print(command)
     return command
 

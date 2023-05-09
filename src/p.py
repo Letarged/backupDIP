@@ -2,15 +2,7 @@
 import sys
 import os
 from os import sys, path
-# if __name__ == "__main__":
-#     import os, sys
-#     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-#     from . import argParser 
-#     from . import scanCoordination
-# else:
-#     import argParser 
-#     import scanCoordination
-
+from termcolor import colored
 
 #sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Good page for NMAP 
@@ -21,50 +13,72 @@ import src.scanCoordination as scanCoordination
 import time 
 import socket
 
-def check_connected():
+def check_connected(force_to_continue_with_network_issue):
+    """
+    Check if there is a connection to the internet by establishing a connection to 8.8.8.8:53. 
+    """
     try:
         # connect to the Google DNS server
         socket.create_connection(("8.8.8.8", 53))
         return True
     except:
-        sys.stderr.write("Warning: It seem like there is some issue with the internet connection.")
+        if force_to_continue_with_network_issue:
+            sys.stderr.write(colored("Warning: It seem like there is some issue with the internet connection.\n", 'red'))
+        else:
+            exit_code = 99
+            sys.exit("Error {}: There is an issue with the internet connection. Exiting now.. if you want to force to continue, use the \"-i\" option.\n".format(exit_code))
     return False
 
 
 start_time = time.time()
 
+    
 def main():
+    """
+    Takes care of the execution of the whole program. 
+
+    First check if this tool is run as a superusper (which is mandatory in order to work at all). 
+    Next check network connection and eventually print a warning. 
+    Following by parsing command-line arguments, which determine which type of scan with what argument will take place.
+    Additionally, the ``main`` function measures the real-world time and prints the result in second on the command line.
+
+    :var targetS: A list of targets specified by the user. If empty, it means the DISCOVERY scan will take place.
+    :type targetS: list
+
+    :var scanType: Can have two meanings. If ``targetS`` == [], meaning DISCOVERY scan has been initialized, it determines what's happening after discovering potential targets. However, if `targetS`` != [], then the discovery doesn't take place and one of a scan types is immediately run on those targets.
+    :type scanType: int
+
+    """
+ 
     if not os.getuid() == 0:
         exit_code = 126
         sys.exit("Error {}: The tool must be executed as a superuser. Exiting now..".format(exit_code))
 
-    print("\n\n")
-    check_connected()
-    scanType, targetS, overwritten = argParser.process_cmd_arguments()
+    scanType, targetS, overwritten, outputmanagment, force_to_continue_with_network_issue = argParser.process_cmd_arguments()
+    check_connected(force_to_continue_with_network_issue)
 
 
-    """
+    
 
-    Different meaning of "scanType" variable:
-
-        targetS == []  ->   scanType determins what's happening AFTER potentional targets are discovered
-        targetS != []  ->   scanType determins wheter we are running scan1 or scan2 on the given targets
-
-    """
+  
 
     if targetS == []:
-        scanCoordination.performScanType0(scanType, overwritten)
+        scanCoordination.performScanType0(scanType, overwritten, outputmanagment)
     else:
         match scanType:
             case '1':
-                scanCoordination.performScanType1(targetS, overwritten)
+                scanCoordination.performScanType1(targetS, overwritten, outputmanagment)
             case '2':
                 scanCoordination.performScanType2(targetS)
             case _:
                 print("Incorrect place in the multiverse.")
 
     end_time = time.time()
+    
     print("\nDone in " + str("{:.4f}".format(end_time - start_time)) + " seconds.")
+
+    if outputmanagment['outputfile'] != None:
+        print("Output saved into: " + str(outputmanagment['outputfile']))
 
     exit()
 

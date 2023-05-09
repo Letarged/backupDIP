@@ -28,10 +28,6 @@ def copy_config():
     current_path = os.getcwd()
     file_path = "src/secondary/conf/types/typeone.cfg"
     source_cfg_file = os.path.join(current_path, file_path)
-
-    print("SRC: " + source_cfg_file)
-    print("DST: " + destination_cfg_file)
-
     shutil.copyfile(source_cfg_file, destination_cfg_file) 
 
     file_path = "src/secondary/dockerimages.py"
@@ -39,16 +35,6 @@ def copy_config():
     source_cfg_file = os.path.join(current_path, file_path)
 
     shutil.copyfile(source_cfg_file, destination_cfg_file) 
-
-    # install_dir = setuptools.distutils.sysconfig.get_python_lib()
-    # source_dir = os.path.join(install_dir, PACKAGE_NAME, 'src')
-    # file_path = os.path.join(source_dir, "config_mapping.cfg")
-    # os.makedirs(source_dir, exist_ok=True)
-    # print("#################################")
-    # print("Filepath: " + str(file_path))
-    # with open(file_path, "w") as f:
-        # f.write(destination_cfg_file)
-
 
     
 class CustomInstallCommand(install):
@@ -80,9 +66,7 @@ setup(
     packages= find_packages(),
     package_data={
         '': ['*.cfg'],
-      #  'DIP': ['../src/config_mapping.cfg'],
     },
-   #data_files=[('', ['../src/config_mapping.cfg'])],
     install_requires=[
         'docker==2.0.0',
         'netifaces==0.11.0',
@@ -93,7 +77,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'tst=src.p:main'
+            'dipscan=src.p:main'
         ]
     },
     cmdclass={

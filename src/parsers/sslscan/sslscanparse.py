@@ -23,7 +23,7 @@ def renegotiation_supported(jsonStr):
     # print(json_string)
     # exit()
     if "renegotiation" not in json_string:
-        print("HERE")
+        # print("HERE")
         return ""
     else:
         result = ""
@@ -53,7 +53,7 @@ def check_heartbleed_vulnerability(jsonStr):
             vulnerable_sslversions_string = ", ".join(vulnerable_sslversions)
             return colored(f"Heartbleed: vulnerable ({vulnerable_sslversions_string})", "red", attrs=["bold"]) + "\n"
     except:
-        print("EXCEPT")
+        # print("EXCEPT")
         return ""
 
 def sort_by_bits(cipher):

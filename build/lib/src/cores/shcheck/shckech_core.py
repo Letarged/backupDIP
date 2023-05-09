@@ -4,9 +4,10 @@ from src.dckrChiefExecutive import launchTheScan
 
 
 
-def craftShcheckCommand(target, port, params, output_format):
-    print(target)
-    print(port)
+def craftShcheckCommand(target, port, params):
+    output_format='--json-output'
+    # print(target)
+    # print(port)
     shcheck_target = getFullUrl_from_URI(target, port, 0)
     command = (
         output_format + 
@@ -37,14 +38,14 @@ def craftShcheckCommand(target, port, params, output_format):
 
 #     print(shcheck_result)
 
-def run(target,port, modulename, params):
+# def run(target,port, modulename, params):
    
-    output_format='--json-output'
-    """ Following line ensures that shcheck will get https://site.org and not IP address, because in that case shcheck gives an error"""
-    shcheck_command = craftShcheckCommand(target, port, params, output_format)
-    shcheck_result = launchTheScan(
-        modules[modulename], 
-        shcheck_command, 
-        )
+#     output_format='--json-output'
+#     """ Following line ensures that shcheck will get https://site.org and not IP address, because in that case shcheck gives an error"""
+#     shcheck_command = craftShcheckCommand(target, port, params, output_format)
+#     shcheck_result = launchTheScan(
+#         modules[modulename], 
+#         shcheck_command, 
+#         )
     
-    print(shcheck_result)
+#     print(shcheck_result)

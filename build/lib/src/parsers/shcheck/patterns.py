@@ -16,8 +16,7 @@ headers = {
 
 def generate_output(list_of_missing, target):
 
-    report = colored('### ', 'grey') + colored('SHCHECK', 'white') + colored(' ###\n', 'grey')
-    report += colored(target, 'grey') + "\n"
+    report = colored(target, 'grey') + "\n"
     report += colored("There are " + str(len(list_of_missing)) + ' missing headers: \n', 'blue')
     for missing in list_of_missing:
         report += '\t'

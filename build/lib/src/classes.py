@@ -1,18 +1,5 @@
-from enum import Enum
 
-
-
-
-"""
-class PortState(Enum):
-    NDEF = 0
-    OPEN = 1
-    filtered = 2
-    CLOSED = 3
-    UNFILTERED = 4
-    OPENFILTERED = 5
-    CLOSEDFILTERED = 6
-"""
+from termcolor import colored
 
 class port:
     def __init__(self, num, state, port_service):
@@ -25,7 +12,14 @@ class port:
         
 
     def __str__(self):
-        return (str(self.num) + " : " + str(self.state) + " :: " + str(self.port_service))
+        # return (str(self.num) + " : " + str(self.state) + " :: " + str(self.port_service))
+        result =  ("\t" + colored(str(self.num), "yellow", attrs=["bold"]) 
+        + " : " 
+        + (colored(str(self.state) , "green") if str(self.state) == 'open' else colored(str(self.state), "red")) 
+        # colored(str(self.state) + " :: ", "cyan")
+        + " :: "
+        + colored(str(self.port_service), "blue", attrs=["bold"]))
+        return result
 
 class ip:
     def __init__(self, ipaddr, ports=None):

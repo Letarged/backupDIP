@@ -4,7 +4,7 @@ from src.cores.helper import check_ip_or_url, getFullUrl_from_URI
 import socket
 import src.classes as classes
 
-def craftGobusterCommand(target, port, params, wordlist):
+def craftGobusterCommand(target, port, params):
    # gobuster_target = getFullUrl(target, port,1)
 
     if check_ip_or_url(target) == "ip":
@@ -19,20 +19,11 @@ def craftGobusterCommand(target, port, params, wordlist):
         # "dir " +
         params +
         " " +
-        " -w " + wordlist +
         " -u " + gobuster_target
     )
 
-    print(command)
     return command
 
 
-
-def run(target,port, modulename, params):
-    command = craftGobusterCommand(target, port, params, modules[modulename]['wordlist'])
-    result = launchTheScan(
-        modules[modulename], 
-        command, 
-        )
 
     print(result)

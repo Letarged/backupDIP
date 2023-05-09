@@ -3,7 +3,9 @@ from src.cores.helper import check_ip_or_url
 import socket
 from termcolor import colored
 
-
+def dummy(x,y,z):
+    return ""
+    
 def run(target,port, modulename, params):
     if check_ip_or_url(target) == "ip":
         ftp_target_ip = target

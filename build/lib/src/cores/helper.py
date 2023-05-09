@@ -79,7 +79,6 @@ def getFullUrl(target, port, with_port_suffix):
             target = "http://" + str(target.address)
         elif port.port_service == "https":
             target = "https://" + str(target.address)
-    print("TUTUUUU")
 
     return target
 

@@ -12,3 +12,6 @@ dist/
 
 # Egg-info directory
 *.egg-info/
+
+# For docummentation purposes
+setup.py

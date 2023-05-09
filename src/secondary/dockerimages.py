@@ -132,10 +132,10 @@ modules = {
         'params' : '', # no parameters
         'core' : 'src.cores.cewl.cewl_core.run',
         'additional' : 'src.cores.cewl.cewl_core.run',
-        'abort_classic' : '',
+        '_abort_classic' : '',
         'command' : 'src.cores.cewl.cewl_core.craftCewlCommand',
         'parser' : 'src.parsers.cewl.cewlparse.parse_output',
-        'outputfile' : '/home/kali/Templates/out.txt'
+        'outputfolder' : '/home/kali/cewl_outs'
     },
     'NmapSSL' : {
         'image' : 'dnmap:v1',
@@ -156,17 +156,19 @@ modules = {
     'Gobuster' : {
         'image' : 'dgobuster:v1',
         'service' : 'https',
-        'params' : '-k -q',
+        'params' : '-k -q -w micro.txt -fw',
         'core' : 'src.cores.gobuster.gobuster_core.run',
         'command' : 'src.cores.gobuster.gobuster_core.craftGobusterCommand',
         'parser' : 'src.parsers.gobuster.gobusterparse.parse_output',
-        'wordlist' : 'common.txt'
     },
     'ftpAnonLogin' :{
         'image' : 'NONE',
-        'service' : 'ftp',
+        'service' : 'https',
         'core' : 'src.cores.ftpanon.ftpanon_core.run',
-        'params' :''
+        'params' :'',
+        'command' : 'src.cores.ftpanon.ftpanon_core.dummy',
+        'additional' : 'src.cores.ftpanon.ftpanon_core.run',
+        '_abort_classic' : '',
     },
     'vag' :{}
 }

@@ -43,15 +43,15 @@ def launchTheScan (tool, command, param):
 """
 
 def launchTheScan (tool, command, param):
-    print("Tool: " + tool)
-    print("Command: " + command)
-    print("Param?: " + param)
+    # print("Tool: " + tool)
+    # print("Command: " + command)
+    # print("Param?: " + param)
     parser, img = getParserAndImage(tool, param)
-    print("Parser: " + parser)
-    print("Img: " + img)
+    # print("Parser: " + parser)
+    # print("Img: " + img)
     path_of_parser, func_in_parser = divideParserField(parser)
-    print("Path of parser: " + path_of_parser)
-    print("Func in parser: " + func_in_parser)
+    # print("Path of parser: " + path_of_parser)
+    # print("Func in parser: " + func_in_parser)
     correctModule = importlib.import_module(path_of_parser)
     dckr = docker.from_env()
     x = dckr.containers.run(img, command, detach = True )

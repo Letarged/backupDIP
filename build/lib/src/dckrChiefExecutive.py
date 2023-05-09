@@ -2,7 +2,7 @@ import docker # for docker images and containers managment
 import configparser # for parsing the configuration file
 from ftplib import FTP
 import importlib
-
+import sys
 from src.secondary.dockerimages import tools
 
 
@@ -13,11 +13,15 @@ def launchTheScan (moduleinfo, command):
     path_of_parser, func_in_parser = divideParserField(moduleinfo['parser'])
     correctModule = importlib.import_module(path_of_parser)
     dckr = docker.from_env()
-    x = dckr.containers.run(image, command, detach = True )
-    output = dckr.containers.get(x.id)
+    try:
+        x = dckr.containers.run(image, command, detach = True )
+        output = dckr.containers.get(x.id)
 
-    return getattr(correctModule, func_in_parser)(output)
+        return getattr(correctModule, func_in_parser)(output)
+    except:
+            return("Something went wrong when running image \"{}\".".format(moduleinfo['image']))
 
+    
     
 
 

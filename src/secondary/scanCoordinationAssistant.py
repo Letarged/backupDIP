@@ -102,7 +102,7 @@ def craftGobusterCommand(target, port, config):
         " -u " + gobuster_target
     )
 
-    print(command)
+    # print(command)
     return command, config['Gobuster']['params']
 
 
@@ -259,5 +259,5 @@ def craftMasscanCommand(target, config, output_format):
         " " +
         target
     )
-    print(masscan_command)
+    # print(masscan_command)
     return masscan_command, config['Masscan']['params']
