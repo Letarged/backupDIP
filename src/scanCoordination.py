@@ -273,23 +273,12 @@ def performScanType1(targetS, overwrite, outputmanagment):
             for open_port in ports:
 
                 if (modules[switched_on_module]['service'] == open_port.port_service):
-                    # if ( open_port.port_service in modules[switched_on_module]['service']):
-                    # path_of_parser, main_func_inside_module = divideField(
-                    #     modules[switched_on_module]['core'])
-                    # path_of_parser, trash = divideField(
-                    #     modules[switched_on_module]['parser'])
-                    # if main_func_inside_module == 'NONE':
-                    #     print("NO DOCKER RUN FOR: " +
-                    #           str(main_func_inside_module))
-                    #     # TODO
-                    #     continue
+                  
                     path_of_command_cretor, command_creator_fun = divideField(
                         modules[switched_on_module]['command'])
-                    # correctModule_of_main_fun = importlib.import_module(
-                    #     path_of_parser)
+                    
                     correctModule_of_create_command_fun = importlib.import_module(
                         path_of_command_cretor)
-                    # print("MODULES: " + str(modules[switched_on_module].keys()))
 
                     cmd = getattr(
                         correctModule_of_create_command_fun,
