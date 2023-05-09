@@ -68,8 +68,6 @@ def main():
         match scanType:
             case '1':
                 scanCoordination.performScanType1(targetS, overwritten, outputmanagment)
-            case '2':
-                scanCoordination.performScanType2(targetS)
             case _:
                 print("Incorrect place in the multiverse.")
 

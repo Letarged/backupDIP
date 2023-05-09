@@ -82,10 +82,10 @@ def process_cmd_arguments():
 
    # target_as_list.add_argument('-f', '--file', help="Location of the file", required=True)
     target_as_list.add_argument('file', help="Location of the non-empty file")
-    target_as_list.add_argument('-t', '--type', help="Type of scan. Default=1", choices=['1', '2'], default='1')
+    target_as_list.add_argument('-t', '--type', help="Type of scan. Default=1", choices=['1'], default='1')
     target_as_single.add_argument('address', help="Target address")
-    target_as_single.add_argument('-t', '--type', help="Type of scan. Default=1", choices=['1', '2'], default='1')
-    target_none_discovery_mode.add_argument('-c', '--cont', choices=['0', '1', '2'], default='0', help="If desired, the script can automatically perform next scan on all the discovered targets. Default = 0 = do not continue")
+    target_as_single.add_argument('-t', '--type', help="Type of scan. Default=1", choices=['1'], default='1')
+    target_none_discovery_mode.add_argument('-c', '--cont', choices=['0', '1'], default='0', help="If desired, the script can automatically perform next scan on all the discovered targets. Default = 0 = do not continue")
 
 
    # sp_target_as_single_address = sp.add_parser('-s', '--single', help="Single target specified. Either an IP or a web address.")
@@ -109,7 +109,7 @@ def process_cmd_arguments():
             os.makedirs(outputmanagement['outputfile'])
         now = datetime.datetime.now()
         date_str = now.strftime("%dth of %B, %H:%M")
-        text = f"Created on {date_str}."
+        text = "\n" + f"Created on {date_str}." + "\n\n"
         with open(outputmanagement['outputfile'], "w") as f:
             f.write(text)
 

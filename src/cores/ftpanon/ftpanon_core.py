@@ -6,7 +6,7 @@ from termcolor import colored
 def dummy(x,y,z):
     return ""
     
-def run(target,port, modulename, params):
+def run(cmd, target,port, module, paramsprint_according_to_outputmanagment, outputmanagment):
     if check_ip_or_url(target) == "ip":
         ftp_target_ip = target
     elif check_ip_or_url(target) == "url":
@@ -19,15 +19,15 @@ def run(target,port, modulename, params):
         
         # Check if anonymous login is allowed
         if ftp.login('anonymous', ''):
-            print(colored(f'[+] {ftp_target_ip} allows anonymous FTP login', 'green', attrs=['bold']))
+            paramsprint_according_to_outputmanagment(outputmanagment, colored(f'[+] {ftp_target_ip} allows anonymous FTP login', 'green', attrs=['bold']))
         else:
-            print(colored(f'[-] {ftp_target_ip} does not allow anonymous FTP login', 'red', attrs=['bold']))
+            paramsprint_according_to_outputmanagment(outputmanagment, colored(f'[-] {ftp_target_ip} does not allow anonymous FTP login', 'red', attrs=['bold']))
         
         # Close the FTP connection
         ftp.quit()
 
     except:
-        return
+        paramsprint_according_to_outputmanagment(outputmanagment, "FTP not accessible.")
 
     """
     if check_ip_or_url(target) == "ip":

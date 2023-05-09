@@ -18,6 +18,8 @@ from src.dckrChiefExecutive import launchTheScan
 # settings = configparser.RawConfigParser()
 
 
+def check_correct_form_of_module(module):
+    pass
 
 def print_according_to_outputmanagment(outputmanagment, data):
 
@@ -52,6 +54,7 @@ def get_type_one_file_because_possible_overwrite(overwrite, dir_path):
     return type_one_file
 
 def get_modules_because_possible_overwrite(overwrite, default_modules):
+    module_result = None
     if not overwrite['modulefile'] == None:
         module_file_path = overwrite['modulefile']
         if not is_file_readable(module_file_path):
@@ -260,17 +263,19 @@ def performScanType1(targetS, overwrite, outputmanagment):
 
                 if (modules[switched_on_module]['service'] == open_port.port_service):
                     # if ( open_port.port_service in modules[switched_on_module]['service']):
-                    path_of_parser, main_func_inside_module = divideField(
-                        modules[switched_on_module]['core'])
-                    if main_func_inside_module == 'NONE':
-                        print("NO DOCKER RUN FOR: " +
-                              str(main_func_inside_module))
-                        # TODO
-                        continue
+                    # path_of_parser, main_func_inside_module = divideField(
+                    #     modules[switched_on_module]['core'])
+                    # path_of_parser, trash = divideField(
+                    #     modules[switched_on_module]['parser'])
+                    # if main_func_inside_module == 'NONE':
+                    #     print("NO DOCKER RUN FOR: " +
+                    #           str(main_func_inside_module))
+                    #     # TODO
+                    #     continue
                     path_of_command_cretor, command_creator_fun = divideField(
                         modules[switched_on_module]['command'])
-                    correctModule_of_main_fun = importlib.import_module(
-                        path_of_parser)
+                    # correctModule_of_main_fun = importlib.import_module(
+                    #     path_of_parser)
                     correctModule_of_create_command_fun = importlib.import_module(
                         path_of_command_cretor)
                     # print("MODULES: " + str(modules[switched_on_module].keys()))
@@ -336,7 +341,7 @@ def performScanType1(targetS, overwrite, outputmanagment):
 
     return
 
-def performScanType0(scan_after_discovery, overwrite):
+def performScanType0(scan_after_discovery, overwrite, outputmanagment):
 
     config = configparser.RawConfigParser()
     settings = configparser.RawConfigParser()
@@ -367,16 +372,14 @@ def performScanType0(scan_after_discovery, overwrite):
             target, config, settings['NmapOutput']['output'])
         discovery_result = funcs.launchTheScan(
             "nmap", discovery_command, parameter)
-        print(discovery_result[0])
+        print_according_to_outputmanagment(outputmanagment, discovery_result[0])
 
     match scan_after_discovery:
         case '0':
             pass
         case '1':
-            performScanType1(discovery_result[1], overwrite)
-        case '2':
-            performScanType2(discovery_command[1])
+            performScanType1(discovery_result[1], overwrite, outputmanagment)
+        
 
 
-def performScanType2(targetS):
-    pass
+

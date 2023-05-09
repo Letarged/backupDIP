@@ -31,7 +31,7 @@ tools = [
         'image' : 'dshcheck:v1',
         'service' : 'https',
         'params' : '', # no parameters
-        'core' : 'src.cores.shcheck.shckech_core.run', 
+        #'core' : 'src.cores.shcheck.shckech_core.run', 
         'parser' : 'src.parsers.shcheck.shcheckparse.parse_output'
     },
     {
@@ -47,7 +47,7 @@ tools = [
         'image' : 'dnmap:v1',
         'service' : 'ANY',
         'params' : '-sS',
-        'core' : 'src.cores.nmap.nmap_core.run', 
+        #'core' : 'src.cores.nmap.nmap_core.run', 
         'parser' : 'src.parsers.nmap.nmapparse.parse_output'
     },
     {
@@ -90,14 +90,13 @@ modules = {
     #     'image' : 'dnmap:v1',
     #     'service' : 'ANY',
     #     'params' : '-sS', # no parameters
-    #     'core' : 'src.cores.nmap.nmap_core.run', 
+    #     #'core' : 'src.cores.nmap.nmap_core.run', 
     #     'parser' : 'src.parsers.nmap.nmapparse.parse_output'
     # },
     'Shcheck_basic' : {
         'image' : 'dshcheck:v1',
         'service' : 'https',
         'params' : '-d', # disable SSL chceck
-        'core' : 'src.cores.shcheck.shckech_core.run', 
         'command' : 'src.cores.shcheck.shckech_core.craftShcheckCommand', 
         'parser' : 'src.parsers.shcheck.shcheckparse.parse_output'
     },
@@ -105,7 +104,6 @@ modules = {
         'image' : 'dwhatweb:v1',
         'service' : 'https',
         'params' : '-a1',
-        'core' : 'src.cores.whatweb.whatweb_core.run',
         'command' : 'src.cores.whatweb.whatweb_core.craftWhatwebCommand',
         'parser' : 'src.parsers.whatweb.whatwebparse.parse_output_basic'
 
@@ -114,7 +112,6 @@ modules = {
         'image' : 'ddnsrecon:v1',
         'service' : 'domain',
         'params' : '-t std',
-        'core' : 'src.cores.dnsrecon.dnsrecon_cl.run',
         'command' : 'src.cores.dnsrecon.dnsrecon_cl.craftDnsreconCommand',
         'parser' : 'src.parsers.dnsrecon.dnsreconparse.parse_output'
      } ,
@@ -122,7 +119,6 @@ modules = {
         'image' : 'ddnsrecon:v1',
         'service' : 'domain',
         'params' : '', # there is parameter '-r' which is hardcoded
-        'core' : 'src.cores.dnsrecon.dnsrecon_rev.run',
         'command' : 'src.cores.dnsrecon.dnsrecon_rev.craftDnsReverseLookupCommand',
         'parser' : 'src.parsers.dnsrecon.dnsreverseparse.parse_output'
     },
@@ -130,9 +126,7 @@ modules = {
         'image' : 'dcewl:v1',
         'service' : 'https',
         'params' : '', # no parameters
-        'core' : 'src.cores.cewl.cewl_core.run',
         'additional' : 'src.cores.cewl.cewl_core.run',
-        '_abort_classic' : '',
         'command' : 'src.cores.cewl.cewl_core.craftCewlCommand',
         'parser' : 'src.parsers.cewl.cewlparse.parse_output',
         'outputfolder' : '/home/kali/cewl_outs'
@@ -141,7 +135,6 @@ modules = {
         'image' : 'dnmap:v1',
         'service' : 'https',
         'params' : '--script ssl-cert',
-        'core' : 'src.cores.nmap.nmapssl.run',
         'command' : 'src.cores.nmap.nmapssl.craftNmapSSLCommand',
         'parser' : 'src.parsers.nmap.nmapSSLparse.parse_output'
     },
@@ -149,7 +142,6 @@ modules = {
         'image' : 'dsslscan:v1',
         'service' : 'https',
         'params' : '--xml=-',
-        'core' : 'src.cores.sslscan.sslscan_core.run',
         'command' : 'src.cores.sslscan.sslscan_core.craftSSLSCANCommand',
         'parser' : 'src.parsers.sslscan.sslscanparse.parse_output'
     },
@@ -157,18 +149,15 @@ modules = {
         'image' : 'dgobuster:v1',
         'service' : 'https',
         'params' : '-k -q -w micro.txt -fw',
-        'core' : 'src.cores.gobuster.gobuster_core.run',
         'command' : 'src.cores.gobuster.gobuster_core.craftGobusterCommand',
         'parser' : 'src.parsers.gobuster.gobusterparse.parse_output',
     },
     'ftpAnonLogin' :{
-        'image' : 'NONE',
+        'image' : None,
         'service' : 'https',
-        'core' : 'src.cores.ftpanon.ftpanon_core.run',
         'params' :'',
         'command' : 'src.cores.ftpanon.ftpanon_core.dummy',
         'additional' : 'src.cores.ftpanon.ftpanon_core.run',
-        '_abort_classic' : '',
     },
     'vag' :{}
 }

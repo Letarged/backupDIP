@@ -1,0 +1,46 @@
+{
+  "include": [
+    "src"
+  ],
+  
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "src/experimental",
+    "src/typestubs",
+    "/build",
+    "/dist",
+    "/DIP.egg-info",
+    
+  ],
+
+  "ignore": [
+   
+  ],
+
+  "defineConstant": {
+    "DEBUG": true
+  },
+
+  "stubPath": "src/stubs",
+  "venv": "env367",
+
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+
+  "pythonVersion": "3.6",
+  "pythonPlatform": "Linux",
+
+  "executionEnvironments": [
+    {
+      "root": "src",
+      "pythonVersion": "3.11",
+      "pythonPlatform": "Linux",
+      "extraPaths": [
+      ]
+    },
+    {
+      "root": "src"
+    }
+  ]
+}
