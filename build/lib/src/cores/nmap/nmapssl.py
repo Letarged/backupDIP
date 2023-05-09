@@ -1,5 +1,5 @@
 
-from src.secondary.dockerimages import modules
+from src.secondary.dipmodules import modules
 from src.dckrChiefExecutive import launchTheScan
 
 

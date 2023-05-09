@@ -1,26 +1,24 @@
-from src.secondary.dockerimages import modules
+from src.secondary.dipmodules import modules
 from src.dckrChiefExecutive import launchTheScan
 from src.cores.helper import getFullUrl_from_URI
 from termcolor import colored
 import os
 
-def craftCewlCommand(target,port,params):
-    cewl_target = getFullUrl_from_URI(target, port, 1)
-    command = (
-        str(params) +
-        " " +
-        cewl_target
-    )
-    return " --help >> /dev/null"
+# def craftCewlCommand(target,port,params):
+#     cewl_target = getFullUrl_from_URI(target, port, 1)
+#     command = (
+#         str(params) +
+#         " " +
+#         cewl_target
+#     )
+#     return " --help >> /dev/null"
 
 
-def craftCewlCommand2(target, port, outputfile):
+def craftCewlCommand(target, port, outputfile):
     cewl_target = getFullUrl_from_URI(target, port, 1)
     command = (
         
-        cewl_target + 
-        " -w " +
-        outputfile
+        cewl_target 
     )
     return command
 
@@ -28,10 +26,10 @@ def craftCewlCommand2(target, port, outputfile):
 
 # def run(target,port, modulename, params):
 def run(cmd, target, port, module,print_according_to_outputmanagment, outputmanagment):
-    command = craftCewlCommand2(target, port, module['outputfolder'])
+   # command = craftCewlCommand(target, port, module['outputfolder'])
     result = launchTheScan(
         module, 
-        command, 
+        cmd, 
         )
 
     dest_folder_to_write_wordlist_to = module['outputfolder']

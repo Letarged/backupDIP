@@ -1,4 +1,4 @@
-from src.secondary.dockerimages import modules
+from src.secondary.dipmodules import modules
 from src.cores.helper import getFullUrl_from_URI
 from src.dckrChiefExecutive import launchTheScan
 

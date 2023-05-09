@@ -1,18 +1,4 @@
-images = {
-    'nmap' : 'dnmap:v1',
-    'cewl' : 'dcewl:v1',
-    'shcheck' : 'dshcheck:v1',
-    'whatweb' : 'dwhatweb:v1',
-    'masscan' : 'dmasscan:v1',
-    'dnsrecon' : 'ddnsrecon:v1',
-    'gobuster' : 'dgobuster:v1'
-}
-
-meta = {
-    'typeoneconf': 'src/secondary/conf/types/typeone.cfg'
-}
-# ANY
-tools = [
+scantools = [
     {
         'tool' : 'cewl',
         'image' : 'dcewl:v1',
@@ -84,15 +70,16 @@ tools = [
 ]
 
 modules = {
-    # 'Nmap' : {},
-    # 'Nmap' : {
-    #     'tool' : 'nmap',
-    #     'image' : 'dnmap:v1',
-    #     'service' : 'ANY',
-    #     'params' : '-sS', # no parameters
-    #     #'core' : 'src.cores.nmap.nmap_core.run', 
-    #     'parser' : 'src.parsers.nmap.nmapparse.parse_output'
-    # },
+    'masscan': {
+        'image' : 'dmasscan:v1',
+        'params' : '',
+        'parser' : 'src.parsers.masscan.masscanparse.parse_output'
+    },
+    'nmap': {
+        'image' : 'dnmap:v1',
+        'params' : '-sS',
+        'parser' : 'src.parsers.nmap.nmapparse.parse_output'
+    },
     'Shcheck_basic' : {
         'image' : 'dshcheck:v1',
         'service' : 'https',
@@ -129,7 +116,8 @@ modules = {
         'additional' : 'src.cores.cewl.cewl_core.run',
         'command' : 'src.cores.cewl.cewl_core.craftCewlCommand',
         'parser' : 'src.parsers.cewl.cewlparse.parse_output',
-        'outputfolder' : '/home/kali/cewl_outs'
+        'outputfolder' : '/home/kali/cewl_outs',
+        '_abort_regular_run': ''
     },
     'NmapSSL' : {
         'image' : 'dnmap:v1',

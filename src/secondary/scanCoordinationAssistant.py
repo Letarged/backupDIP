@@ -242,7 +242,7 @@ def craftMasscanCommand(target, config, output_format):
     if check_ip_or_url(target) == "url":
         target = socket.gethostbyname(target)
 
-    ports_to_scan = config['Masscan']['ports']
+    ports_to_scan = config['Masscan_s']['ports']
 
     # if "--top-ports 10" is specified, leave it like that
     # but if "21,22,80,443,8080" is specified, we need to add "-p" prefix for nmap
@@ -253,11 +253,11 @@ def craftMasscanCommand(target, config, output_format):
     masscan_command = (
         output_format +
         " " +
-        config['Masscan']['params'] +
+        config['Masscan_s']['params'] +
         " " +
         ports_to_command +
         " " +
         target
     )
     # print(masscan_command)
-    return masscan_command, config['Masscan']['params']
+    return masscan_command, config['Masscan_s']['params']

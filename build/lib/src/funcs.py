@@ -3,8 +3,8 @@ import configparser # for parsing the configuration file
 from ftplib import FTP
 import importlib
 
-# from secondary.dockerimages import images
-from src.secondary.dockerimages import tools
+# from secondary.dipmodules import images
+from src.secondary.dipmodules import tools
 
 # import parsers.nmap.nmapparse as nmapparse
 # import parsers.shcheck.shcheckparse as shcheckparse
@@ -42,7 +42,7 @@ def launchTheScan (tool, command, param):
 
 """
 
-def launchTheScan (tool, command, param):
+def thePortScan (tool, command, param):
     # print("Tool: " + tool)
     # print("Command: " + command)
     # print("Param?: " + param)

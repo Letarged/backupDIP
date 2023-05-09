@@ -8,13 +8,12 @@ import netifaces
 import ipaddress
 import configparser
 import importlib.util
-import src.funcs as funcs
+import src.portFuncs as funcs
 import src.secondary.scanCoordinationAssistant as assist
 from termcolor import colored
-from src.secondary import dockerimages
-from src.secondary.dockerimages import meta
+from src.secondary import dipmodules
 from src.dckrChiefExecutive import launchTheScan
-
+from src import classes
 # settings = configparser.RawConfigParser()
 
 
@@ -187,7 +186,7 @@ def portScanningPhase(targetS, config, settings):
         for target in targetS:
             nmap_command, param = assist.craftNmapCommand(
                 target, config, settings['NmapOutput']['output'])
-            nmap_found_targets[target] = funcs.launchTheScan(
+            nmap_found_targets[target] = funcs.thePortScan(
                 "nmap", nmap_command, param)
             # if debug_on: print("Went for " + str(target) + str(found_targets[target]))
 
@@ -196,11 +195,19 @@ def portScanningPhase(targetS, config, settings):
         for target in targetS:
             masscan_command, param = assist.craftMasscanCommand(
                 target, config, settings['MasscanOutput']['output'])
-            masscan_found_target[target] = funcs.launchTheScan(
-                "masscan", masscan_command, param)
+
+            try: 
+                masscan_found_target[target] = funcs.thePortScan(
+                    "masscan", masscan_command, param)
+            except:
+                masscan_found_target[target] = classes.ip(target, None)
+
 
     if not doneAtLeastOneScan:
-        exit("At least one scan must be performed:  nmap / masscan")
+
+        exit_code = 89
+        sys.exit("Error {}: At least one scan must be performed:  nmap / masscan".format(exit_code))
+    
 
     info = {}
     to_s_cim_pracujeme = {**masscan_found_target, **nmap_found_targets}
@@ -234,7 +241,7 @@ def performScanType1(targetS, overwrite, outputmanagment):
     type_one_file = get_type_one_file_because_possible_overwrite(
         overwrite, dir_path)
     modules = get_modules_because_possible_overwrite(
-        overwrite, dockerimages.modules)
+        overwrite, dipmodules.modules)
 
     settings_file = os.path.join(dir_path, "secondary", "conf", "settings.cfg")
 
@@ -305,7 +312,7 @@ def performScanType1(targetS, overwrite, outputmanagment):
                             print_according_to_outputmanagment,
                             outputmanagment
                         )
-                    if not '_abort_classic' in modules[switched_on_module]:
+                    if not modules[switched_on_module]['image'] == None and not '_abort_regular_run' in modules[switched_on_module]:
                         print_according_to_outputmanagment(outputmanagment, launchTheScan(modules[switched_on_module], cmd))
 
                     """

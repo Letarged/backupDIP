@@ -30,7 +30,7 @@ def copy_config():
     source_cfg_file = os.path.join(current_path, file_path)
     shutil.copyfile(source_cfg_file, destination_cfg_file) 
 
-    file_path = "src/secondary/dockerimages.py"
+    file_path = "src/secondary/dipmodules.py"
     destination_cfg_file = os.path.join(config_dir_in_this_system, "dipmodules.py")
     source_cfg_file = os.path.join(current_path, file_path)
 

@@ -1,4 +1,4 @@
-from src.secondary.dockerimages import modules
+from src.secondary.dipmodules import modules
 from src.dckrChiefExecutive import launchTheScan
 from src.cores.helper import check_ip_or_url, getFullUrl_from_URI
 import socket

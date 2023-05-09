@@ -11,8 +11,8 @@ src/classes.py
 src/conf.py
 src/config_mapping.cfg
 src/dckrChiefExecutive.py
-src/funcs.py
 src/p.py
+src/portFuncs.py
 src/scanCoordination.py
 src/cores/__init__.py
 src/cores/helper.py
@@ -56,7 +56,7 @@ src/parsers/sslscan/sslscanparse.py
 src/parsers/whatweb/__init__.py
 src/parsers/whatweb/whatwebparse.py
 src/secondary/__init__.py
-src/secondary/dockerimages.py
+src/secondary/dipmodules.py
 src/secondary/scanCoordinationAssistant.py
 src/secondary/conf/__init__.py
 src/secondary/conf/settings.cfg
