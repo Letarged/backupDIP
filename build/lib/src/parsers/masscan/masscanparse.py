@@ -102,9 +102,7 @@ def parse_output(output):
     data = data.split("\n",3)[3].strip() # remove the annoying masscan header lines
     data = data[:data.rfind("\nrate")+1] # remove last line
    # data = data + "]"
-    print("-------")
-    print(data)
-    print("-------")
+    
     jsonStr = json.loads(data)
 
     tmp, target_ip = make_proper_structure(jsonStr)

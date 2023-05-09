@@ -3,7 +3,7 @@ import configparser # for parsing the configuration file
 from ftplib import FTP
 import importlib
 import sys
-from src.secondary.dipmodules import scantools
+#from src.secondary.dipmodules import scantools
 
 
 
@@ -32,14 +32,6 @@ def divideParserField(txt):
     path = txt.rsplit(".",1)[0]
     func = txt.rsplit(".",1)[1]
     return path, func
-
-def getParserAndImage(tool, param):
-    for record in scantools:
-        if record['tool'] == tool and \
-            (param in record['params'] or \
-                'ANY' in record['params']):
-            return record['parser'], record['image']
-
 
 
     exit("Error: correcponding module does not exist: " + str(tool) + " with the parameter '" + str(param) + "' "    "\

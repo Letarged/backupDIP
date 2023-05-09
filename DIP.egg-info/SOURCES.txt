@@ -57,7 +57,6 @@ src/parsers/whatweb/__init__.py
 src/parsers/whatweb/whatwebparse.py
 src/secondary/__init__.py
 src/secondary/dipmodules.py
-src/secondary/scanCoordinationAssistant.py
 src/secondary/conf/__init__.py
 src/secondary/conf/settings.cfg
 src/secondary/conf/types/__init__.py

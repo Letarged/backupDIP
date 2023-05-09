@@ -1,82 +1,15 @@
-scantools = [
-    {
-        'tool' : 'cewl',
-        'image' : 'dcewl:v1',
-        'params' : [''], # no parameters
-        'parser' : 'src.parsers.cewl.cewlparse.parse_output'
-    },
-    {
-        'tool' : 'whatweb',
-        'image' : 'dwhatweb:v1',
-        'params' : ['-a1'],
-        'parser' : 'src.parsers.whatweb.whatwebparse.parse_output_basic'
-    },
-    {
-        'identifier' : 'Shcheck_basic',
-        'tool' : 'shcheck',
-        'image' : 'dshcheck:v1',
-        'service' : 'https',
-        'params' : '', # no parameters
-        #'core' : 'src.cores.shcheck.shckech_core.run', 
-        'parser' : 'src.parsers.shcheck.shcheckparse.parse_output'
-    },
-    {
-        'tool' : 'nmap',
-        'image' : 'dnmap:v1',
-        'params' : ['-sn'], # ICMP Echo Request scan
-        'parser' : 'src.parsers.nmap.nmapdiscoveryparse.parse_output'
-    },
-    {
-        
-        'identifier' : 'Nmap_ports_basic',
-        'tool' : 'nmap',
-        'image' : 'dnmap:v1',
-        'service' : 'ANY',
-        'params' : '-sS',
-        #'core' : 'src.cores.nmap.nmap_core.run', 
-        'parser' : 'src.parsers.nmap.nmapparse.parse_output'
-    },
-    {
-        'tool' : 'nmap',
-        'image' : 'dnmap:v1',
-        'params' : ['--script ssl-cert'],
-        'parser' : 'src.parsers.nmap.nmapSSLparse.parse_output'
-    },
-    {
-        'tool' : 'dnsrecon',
-        'image' : 'ddnsrecon:v1',
-        'params' : ['-t std'],
-        'parser' : 'src.parsers.dnsrecon.dnsreconparse.parse_output'
-    },
- {
-        'tool' : 'dnsrecon',
-        'image' : 'ddnsrecon:v1',
-        'params' : ['-r'],
-        'parser' : 'src.parsers.dnsrecon.dnsreverseparse.parse_output'
-    },
-    {
-        'tool' : 'gobuster',
-        'image' : 'dgobuster:v1',
-        'params' : ['-k -q'],
-        'parser' : 'src.parsers.gobuster.gobusterparse.parse_output'
-    },
-    {
-        'tool' : 'masscan',
-        'image' : 'dmasscan:v1',
-        'params' : [''],
-        'parser' : 'src.parsers.masscan.masscanparse.parse_output'
-    }
-    
-]
+
 
 modules = {
     'masscan': {
         'image' : 'dmasscan:v1',
+        'service' : '',
         'params' : '',
         'parser' : 'src.parsers.masscan.masscanparse.parse_output'
     },
     'nmap': {
         'image' : 'dnmap:v1',
+        'service' : '',
         'params' : '-sS',
         'parser' : 'src.parsers.nmap.nmapparse.parse_output'
     },
@@ -146,6 +79,8 @@ modules = {
         'params' :'',
         'command' : 'src.cores.ftpanon.ftpanon_core.dummy',
         'additional' : 'src.cores.ftpanon.ftpanon_core.run',
-    },
-    'vag' :{}
+        'parser' : '',
+        '_abort_regular_run': ''
+
+    }
 }

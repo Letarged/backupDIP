@@ -18,7 +18,12 @@ from src import classes
 
 
 def check_correct_form_of_module(module):
-    pass
+    print("Module: " + str(module))
+    print("dipmodules[module] : " + str(dipmodules.modules[module]))
+    if not ('image' in dipmodules.modules[module] and 'service' in dipmodules.modules[module] and 'parser' in dipmodules.modules[module]):
+        exit_code = 111
+        sys.exit("Error {}: Incorrect form of a module {}. Must contain at least \"service\", \"parser\" and \"image\" key.".format(exit_code, module))
+
 
 def print_according_to_outputmanagment(outputmanagment, data):
 
@@ -262,6 +267,7 @@ def performScanType1(targetS, overwrite, outputmanagment):
             print_according_to_outputmanagment(outputmanagment, colored("..probably down", 'red'))
             continue
         for switched_on_module in switched_ons:
+            check_correct_form_of_module(switched_on_module)
             print_according_to_outputmanagment(outputmanagment, "Module: " + colored(str(switched_on_module), "white", attrs=['bold']))
             ports = [
                 p for p in found_targets[target].not_closed_not_filtered_ports()]
