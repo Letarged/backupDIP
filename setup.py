@@ -46,6 +46,10 @@ class CustomInstallCommand(install):
         except:
             subprocess.call(['sudo', 'apt-get', 'update'])
             subprocess.call(['sudo', 'apt-get', 'install', '-y', 'docker.io'])
+            
+        libraries = ['docker', 'termcolor', 'xmltodict']
+        for library in libraries:
+            subprocess.call(['pip', 'install', library])
 
         subprocess.call(['docker', 'run', 'ubuntu']) # pulling the base image (ubuntu is the base image)
         subprocess.call(['docker', 'build', '-t', 'dnmap:v1', './imagesFromDocker/nmap'])
@@ -72,6 +76,7 @@ setup(
         'netifaces==0.11.0',
         'termcolor==2.3.0',
         'xmltodict==0.12.0',
+             
         
         
     ],

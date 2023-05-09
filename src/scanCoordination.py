@@ -18,8 +18,6 @@ from src import classes
 
 
 def check_correct_form_of_module(module):
-    print("Module: " + str(module))
-    print("dipmodules[module] : " + str(dipmodules.modules[module]))
     if not ('image' in dipmodules.modules[module] and 'service' in dipmodules.modules[module] and 'parser' in dipmodules.modules[module]):
         exit_code = 111
         sys.exit("Error {}: Incorrect form of a module {}. Must contain at least \"service\", \"parser\" and \"image\" key.".format(exit_code, module))
