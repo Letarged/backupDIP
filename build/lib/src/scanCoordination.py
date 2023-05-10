@@ -17,27 +17,34 @@ from src import classes
 # settings = configparser.RawConfigParser()
 
 
-def check_correct_form_of_module(module):
-    if not ('image' in dipmodules.modules[module] and 'service' in dipmodules.modules[module] and 'parser' in dipmodules.modules[module]):
+def check_correct_form_of_module(module, all_modules):
+    if not module in all_modules:
+        print("HAPPENED THIS: " + str(module) + " not in " + str(all_modules.keys()))
+        exit()
+    if not ('image' in all_modules[module] and 'service' in all_modules[module] and 'parser' in all_modules[module]):
         exit_code = 111
-        sys.exit("Error {}: Incorrect form of a module {}. Must contain at least \"service\", \"parser\" and \"image\" key.".format(exit_code, module))
+        sys.exit("Error {}: Incorrect form of a module {}. Must contain at least \"service\", \"parser\" and \"image\" key.".format(
+            exit_code, module))
 
 
 def print_according_to_outputmanagment(outputmanagment, data):
 
-        if outputmanagment['printtostdout']:
-            print(data)
-        if outputmanagment['outputfile'] != None:
-            write_to_file(outputmanagment['outputfile'], data)
+    if outputmanagment['printtostdout']:
+        print(data)
+    if outputmanagment['outputfile'] != None:
+        write_to_file(outputmanagment['outputfile'], data)
+
 
 def write_to_file(filename, data):
     with open(filename, 'a') as file:
         print(data, file=file)
 
+
 def extract_domain_name(url):
     url_without_scheme = re.sub(r'^https?://', '', url).rstrip('/')
     parts = url_without_scheme.split('/', 1)
     return parts[0]
+
 
 def get_type_one_file_because_possible_overwrite(overwrite, dir_path):
     config_dir_in_this_system = appdirs.user_config_dir("dipconf")
@@ -55,30 +62,40 @@ def get_type_one_file_because_possible_overwrite(overwrite, dir_path):
         type_one_file = type_one_file_by_default
     return type_one_file
 
+
 def get_modules_because_possible_overwrite(overwrite, default_modules):
+    config_dir_in_this_system = appdirs.user_config_dir("dipconf")
+    destination_default_dipmodules = os.path.join(config_dir_in_this_system, "dipmodules.py")
+
     module_result = None
     if not overwrite['modulefile'] == None:
         module_file_path = overwrite['modulefile']
-        if not is_file_readable(module_file_path):
-            sys.stderr.write(colored(
-                f"Warning: file \"{module_file_path}\" doesn't exist or is not readable. Using the defaults.\n", 'red'))
-            return default_modules
-        module_name = os.path.splitext(os.path.basename(module_file_path))[0]
-        spec = importlib.util.spec_from_file_location(
-            module_name, module_file_path)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-
-        if 'modules' not in module.__dict__:
-            sys.stderr.write(colored(
-                f"Warning: file \"{module_file_path}\" doesn't contain \"modules\" dict. Using the defaults.\n", 'red'))
-        else:
-            module_result = module.modules
-
     else:
-        module_result = default_modules
+        module_file_path = destination_default_dipmodules
+    
+    if not is_file_readable(module_file_path):
+        sys.stderr.write(colored(
+            f"Warning: file \"{module_file_path}\" doesn't exist or is not readable. Using the defaults.\n", 'red'))
+        return default_modules
+    module_name = os.path.splitext(os.path.basename(module_file_path))[0]
+    spec = importlib.util.spec_from_file_location(
+        module_name, module_file_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    
+    if 'modules' not in module.__dict__:
+        sys.stderr.write(colored(
+            f"Warning: file \"{module_file_path}\" doesn't contain \"modules\" dict. Using the defaults.\n", 'red'))
+    else:
+        try:
+            module_result = module.modules
+        except:
+            module_result = default_modules
+
+    
 
     return module_result
+
 
 def is_file_readable(filename):
     if os.access(filename, os.R_OK):
@@ -86,16 +103,18 @@ def is_file_readable(filename):
     else:
         return False
 
+
 def create_banner(address):
     result = "\n"
     line = "------- " + address + " -------"
     line_len = len(line)
     result += (colored("-" * line_len, "grey", attrs=["bold"])) + "\n"
-    result +=(colored(line[:7], "grey", attrs=["bold"]) +
-          colored(line[7:-7], "red", attrs=["bold"]) +
-          colored(line[-7:], "grey", attrs=["bold"])) + "\n"
+    result += (colored(line[:7], "grey", attrs=["bold"]) +
+               colored(line[7:-7], "red", attrs=["bold"]) +
+               colored(line[-7:], "grey", attrs=["bold"])) + "\n"
     result += (colored("-" * line_len, "grey", attrs=["bold"]))
     return result
+
 
 def get_switched_on(config, modules):
     """
@@ -103,7 +122,7 @@ def get_switched_on(config, modules):
 
     Also check if each entry in config file has the corresponding module in module file. 
     If not, then the function either prints a warning (if it has switched_on=0) or exits with an error (if switched_on=1)
-    
+
     """
 
     enabled_sections = []
@@ -129,6 +148,7 @@ def get_switched_on(config, modules):
 
     return enabled_sections
 
+
 def display_loading():
     counter = 0
     while True:
@@ -140,9 +160,11 @@ def display_loading():
         if counter >= 30:
             break
 
+
 def netmaskToSlash(netmask):
     ip_network = ipaddress.IPv4Network("0.0.0.0/" + netmask, strict=False)
     return ip_network.prefixlen
+
 
 def getInterfaces(configInterfaces, logic):
     lst = []
@@ -155,6 +177,7 @@ def getInterfaces(configInterfaces, logic):
             if configInterfaces.getboolean(interf) == True:
                 lst.append(interf)
     return lst
+
 
 def gonna_be_scanned(lst, interface, logic):
     if logic == True:
@@ -174,11 +197,13 @@ def gonna_be_scanned(lst, interface, logic):
                 return True
         return False
 
+
 def module_exists(module_from_config, modules):
     if module_from_config in modules.keys():
         return True
     else:
         return False
+
 
 def portScanningPhase(targetS, config, settings):
     doneAtLeastOneScan = False
@@ -199,18 +224,17 @@ def portScanningPhase(targetS, config, settings):
             masscan_command, param = assist.craftMasscanCommand(
                 target, config, settings['MasscanOutput']['output'])
 
-            try: 
+            try:
                 masscan_found_target[target] = funcs.thePortScan(
                     "masscan", masscan_command, param)
             except:
                 masscan_found_target[target] = classes.ip(target, None)
 
-
     if not doneAtLeastOneScan:
 
         exit_code = 89
-        sys.exit("Error {}: At least one scan must be performed:  nmap / masscan".format(exit_code))
-    
+        sys.exit(
+            "Error {}: At least one scan must be performed:  nmap / masscan".format(exit_code))
 
     info = {}
     to_s_cim_pracujeme = {**masscan_found_target, **nmap_found_targets}
@@ -222,16 +246,19 @@ def portScanningPhase(targetS, config, settings):
 
     return {**nmap_found_targets, **masscan_found_target}, info
 
+
 def divideField(txt):
     path = txt.rsplit(".", 1)[0]
     func = txt.rsplit(".", 1)[1]
     return path, func
+
 
 def service_check(module_service, real_services):
     if module_service == 'ANY' or module_service in real_services:
         return True
     else:
         return False
+
 
 def performScanType1(targetS, overwrite, outputmanagment):
 
@@ -254,42 +281,34 @@ def performScanType1(targetS, overwrite, outputmanagment):
     switched_ons = get_switched_on(config, modules)
     found_targets, info_output_about_ports = portScanningPhase(
         targetS, config, settings)
-   
+
     for target in list(found_targets.keys()):
 
-        print_according_to_outputmanagment(outputmanagment, create_banner(target))
-        print_according_to_outputmanagment(outputmanagment, info_output_about_ports[target])
-       
+        print_according_to_outputmanagment(
+            outputmanagment, create_banner(target))
+        print_according_to_outputmanagment(
+            outputmanagment, info_output_about_ports[target])
 
         if (found_targets[target] == None):
-            print_according_to_outputmanagment(outputmanagment, colored("..probably down", 'red'))
+            print_according_to_outputmanagment(
+                outputmanagment, colored("..probably down", 'red'))
             continue
         for switched_on_module in switched_ons:
-            check_correct_form_of_module(switched_on_module)
-            print_according_to_outputmanagment(outputmanagment, "Module: " + colored(str(switched_on_module), "white", attrs=['bold']))
+            check_correct_form_of_module(switched_on_module, modules)
+            print_according_to_outputmanagment(
+                outputmanagment, "Module: " + colored(str(switched_on_module), "white", attrs=['bold']))
             ports = [
                 p for p in found_targets[target].not_closed_not_filtered_ports()]
 
             for open_port in ports:
 
                 if (modules[switched_on_module]['service'] == open_port.port_service):
-                    # if ( open_port.port_service in modules[switched_on_module]['service']):
-                    # path_of_parser, main_func_inside_module = divideField(
-                    #     modules[switched_on_module]['core'])
-                    # path_of_parser, trash = divideField(
-                    #     modules[switched_on_module]['parser'])
-                    # if main_func_inside_module == 'NONE':
-                    #     print("NO DOCKER RUN FOR: " +
-                    #           str(main_func_inside_module))
-                    #     # TODO
-                    #     continue
+
                     path_of_command_cretor, command_creator_fun = divideField(
                         modules[switched_on_module]['command'])
-                    # correctModule_of_main_fun = importlib.import_module(
-                    #     path_of_parser)
+
                     correctModule_of_create_command_fun = importlib.import_module(
                         path_of_command_cretor)
-                    # print("MODULES: " + str(modules[switched_on_module].keys()))
 
                     cmd = getattr(
                         correctModule_of_create_command_fun,
@@ -317,7 +336,8 @@ def performScanType1(targetS, overwrite, outputmanagment):
                             outputmanagment
                         )
                     if not modules[switched_on_module]['image'] == None and not '_abort_regular_run' in modules[switched_on_module]:
-                        print_according_to_outputmanagment(outputmanagment, launchTheScan(modules[switched_on_module], cmd))
+                        print_according_to_outputmanagment(
+                            outputmanagment, launchTheScan(modules[switched_on_module], cmd))
 
                     """
                     # try:
@@ -352,6 +372,7 @@ def performScanType1(targetS, overwrite, outputmanagment):
 
     return
 
+
 def performScanType0(scan_after_discovery, overwrite, outputmanagment):
 
     config = configparser.RawConfigParser()
@@ -383,14 +404,11 @@ def performScanType0(scan_after_discovery, overwrite, outputmanagment):
             target, config, settings['NmapOutput']['output'])
         discovery_result = funcs.launchTheScan(
             "nmap", discovery_command, parameter)
-        print_according_to_outputmanagment(outputmanagment, discovery_result[0])
+        print_according_to_outputmanagment(
+            outputmanagment, discovery_result[0])
 
     match scan_after_discovery:
         case '0':
             pass
         case '1':
             performScanType1(discovery_result[1], overwrite, outputmanagment)
-        
-
-
-
