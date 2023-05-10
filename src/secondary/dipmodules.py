@@ -16,9 +16,9 @@ modules = {
     'Shcheck_basic' : {
         'image' : 'dshcheck:v1',
         'service' : 'https',
-        'params' : '-d', # disable SSL chceck
+        'params' : '-d', 
         'command' : 'src.cores.shcheck.shckech_core.craftShcheckCommand', 
-        'parser' : 'src.parsers.shcheck.shcheckparse.parse_output'
+        'parser' : 'src.parsers.shcheck.shcheckparse.parse_output',
     },
     'Whatweb' : {
         'image' : 'dwhatweb:v1',

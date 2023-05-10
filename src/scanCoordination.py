@@ -17,6 +17,22 @@ from src import classes
 # settings = configparser.RawConfigParser()
 
 
+
+def safe_import(module_path):
+    try:
+        return importlib.import_module(module_path)
+    except:
+        # print("MODULE PATH: " + module_path)
+        path = module_path.rsplit("/", 1)[0]
+        module_itself = module_path.split("/")[-1]
+        # print("WHAT IS APPENDED: " + path)
+        # print("MODULE ITSELF: " + module_itself)
+        sys.path.append(path)
+        return importlib.import_module(module_itself)
+    # path = txt.rsplit(".", 1)[0]
+
+
+
 def check_correct_form_of_module(module, all_modules):
     if not module in all_modules:
         print("HAPPENED THIS: " + str(module) + " not in " + str(all_modules.keys()))
@@ -299,16 +315,17 @@ def performScanType1(targetS, overwrite, outputmanagment):
                 outputmanagment, "Module: " + colored(str(switched_on_module), "white", attrs=['bold']))
             ports = [
                 p for p in found_targets[target].not_closed_not_filtered_ports()]
-
             for open_port in ports:
-
                 if (modules[switched_on_module]['service'] == open_port.port_service):
-
                     path_of_command_cretor, command_creator_fun = divideField(
                         modules[switched_on_module]['command'])
+                    # print("path_of_command_cretor: " + str(path_of_command_cretor))
+                    # print("command_creator_fun: " + str(command_creator_fun))
 
-                    correctModule_of_create_command_fun = importlib.import_module(
-                        path_of_command_cretor)
+                    # correctModule_of_create_command_fun = importlib.import_module(
+                    #     path_of_command_cretor)
+
+                    correctModule_of_create_command_fun = safe_import(path_of_command_cretor)
 
                     cmd = getattr(
                         correctModule_of_create_command_fun,
@@ -322,8 +339,10 @@ def performScanType1(targetS, overwrite, outputmanagment):
                     if 'additional' in modules[switched_on_module]:
                         path_of_additional, func_of_additional = divideField(
                             modules[switched_on_module]['additional'])
-                        correctModule_of_additional = importlib.import_module(
-                            path_of_additional)
+                        # correctModule_of_additional = importlib.import_module(
+                        #     path_of_additional)
+                        correctModule_of_additional = safe_import(path_of_additional)
+
                         getattr(
                             correctModule_of_additional,
                             func_of_additional

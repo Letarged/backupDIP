@@ -1,7 +1,7 @@
 # Dipscan - Tool For Automted Penetration Testing
 
  
-> **Thanks:** I am grateful you chose Dipscan tool.
+> **Thanks:** I am grateful you chose Dipscan tool. Please note that there are some validations against incorrect user inputs and malformated user-defined add-ons, but it is far from being complete. Just "Sem-tam"
 
 
 ## Installation steps
@@ -12,7 +12,7 @@ git clone https://github.com/Letarged/backupDIP.git
 cd backupDIP
 sudo ./setup.py install
 ```
-Before starting the installation, there are several dependencies that need to be satisfied. Some of these dependencies are not covered by the installation process. If any dependencies are missing, please refer to the following table for guidance on how to resolve the issue:
+It will take several minutes (5-10mins).Before starting the installation, there are several dependencies that need to be satisfied. Some of these dependencies are not covered by the installation process. If any dependencies are missing, please refer to the following table for guidance on how to resolve the issue:
 |              Tool / Library  |How to solve if missing                          |
 |----------------|-------------------------------|
 |git|`sudo apt install git -y`            |
@@ -29,10 +29,15 @@ Since `dipscan` uses docker images, it must be run as root. The tool can be run 
 sudo dipscan --help
 
 # run a simple scan with the default settings
+# in repo, by default, the config has all the modules switched on
 sudo dipscan SINGLE hackthissite.org
 ```
 
 ## Modules
+The whole tool is composed from several modules. It is designed to be easy to add another modules according to the user's specific needs. In general, each module consists of:
+1. Record in `dipmodules.py`
+2. A python file containing a function for the command creation
+3. New entry in the config-run file
 
 ## Adding a user-defined modules
 
@@ -100,3 +105,6 @@ The name in [*brackets*] must be the same as ***the name of the new module*** sp
 
 #### Steps for creating a module based on a python function
 It is also possible to add a module which is defined just by a python code, without its docker image. In this case..
+
+## Notes
+There is a default `dipmodules.py` file along with a default `run.cfg` configuration file in the repository. Once Dipscan is downloaded and installed, they are copied into the system's default location for configuration files (which in my case happened to be `/root/.config/dipconf/`). Note that this info can be printed out using `sudo dipscan CONF` command, since the system's default location may vary from system to system. . And that's exactly the location, which metadata for the tool's run is loaded from. Therefore, the instances of default files which were downloaded from git remain untouched during the rest of the time of this world. Every time you execute this tool, it looks for `dipmodules.py` and `run.cfg` in the system’s default location for configuration files (unless overwritten using `-r` or `-m` option)(see `--help` for more info).
