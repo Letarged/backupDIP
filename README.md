@@ -48,6 +48,7 @@ modules = {
 	},
 	'module2' : {
 		#<metadata>
+    }
 }
 ```
 An example of a full record of a module:
@@ -66,14 +67,14 @@ modules = {
 As you can see, each record contains several keys with their corresponding value. Not all of them are required, but there is some kind of a standard template for a record.
 
 Minimal keys are those, which the framework counts with during its run. If any of the minimal keys is missing, an error will be raised. The minimal keys are:
-* **`'image'`** - An docker image which will run its tool. Note that the entrypoint of the specified image must be set to run that tool. A special value which 'image' can be set to is `None`. In that case, no image will be run. It may be useful in some cases when building a module, especially when the functionality of the module depends solely on a python features.
+* **`'image'`** - A docker image which will run its tool. Note that the entrypoint of the specified image must be set to run that tool. A special value which 'image' can be set to is `None`. In that case, no image will be run. It may be useful in some cases when building a module, especially when the functionality of the module depends solely on a python features.
 * **`'service'`** - For which service it is designed. If it's desired to run a module on multiple services, it is necessary to create separate module for that. Service cannot be an array.  Ex. `'https`' or `'domain'`
 * **`'params'`** - A string specifying the parameters for the tool. This is quite benevolent since the value will be handled only by the user when writing the functions for the module (see below). So it can be omitted (which is "") and written into that functions. 
-* **`'command'`** - Path of a python function which creates the command for the docker run. Three arguments will be passed:
+* **`'command'`** - Path of a python function which creates the command for the docker run. This function can be defined in any python file in any (accessible) folder, however it is good idea to keep some good practice here. Anyway, the framework will decode the path and run the specified function. Three arguments will be passed:
 	1. *type:string* - target address
 	2. *type:int* - port
 	3. *type:string* - 'params' value from the corresponding module record (untouched by the framework)
-	* *return:string* - final string which will be supplied to the docker container, equivalent of
+	* *return:string* - command which will be supplied to the docker container for its run, which would be equivalent to 
 	``` docker run img <returned_string>```
 
 	There are two ways of defining the path of the function, first of which being the "dot" notation, as shown in the example above. It counts with the relative paths so it is expected to be used only with pre-built modules. When defining a user's module, I cannot see a reason why it would be a good idea to use a notation other than this one:
@@ -89,8 +90,8 @@ Minimal keys are those, which the framework counts with during its run. If any o
 
 
 There are two more keys, which are recognized by the framework, providing the user with flexibility in creating new modules:
-* **`'additional'`** - Path of a python function according to rules described above. This function provides a way for the user to perform any actions which wouldn't be possible due to strict rules of the framework. It takes 6 arguments, returns nothing:
-	1.	*type:string* - command which was created in the function specified in 'command', so it can returns an empty string if it's not needed here (and the execution of the docker image is suppressed by `'image' : None` or by ``'_abort_regular_run'`` (see below)
+* **`'additional'`** - Path of a python function according to rules described above. This function provides a way for the user to perform any actions which wouldn't be otherwise possible due to strict rules of the framework. It takes 6 arguments, returns nothing:
+	1.	*type:string* - command which was created in the function specified in 'command', so the funtion for creating the command can simply return an empty string if it's not needed here (and the execution of the docker image is suppressed by `'image' : None` or by ``'_abort_regular_run'`` (see below)
 	2.	*type:string* - target
 	3.	*type:port* - port
 	4.	*type:dict* - the module with all the "key-vale" pairs
@@ -99,7 +100,7 @@ There are two more keys, which are recognized by the framework, providing the us
 		  
 * **`'_abort_regular_run'`** - If present, the execution of the docker image won't take place. The value doesn't matter since it is not evaluated whatsoever.
 
-You can add any number of other keys if you find it useful, it won't cause any conflicts.
+You can add any number of other keys if you find it useful (and use it through the 4th argument of the "additional" function. It won't cause any conflicts.
 
 #### An entry in `run.cfg`   file
 Looks like this:
@@ -180,7 +181,7 @@ The name in [*brackets*] must be the same as ***the name of the new module*** sp
 
 
 #### Steps for creating a module based on a python function
-It is also possible to add a module which is defined just by a python code, without its docker image. In this case..
+It is also possible to add a module which is defined just by a python code, without a docker image. All the functionality can be covered in "additional" function.. pretty sure it's clear without further description.. I need a rest. 
 
 ## Notes
 There is a default `dipmodules.py` file along with a default `run.cfg` configuration file in the repository. Once Dipscan is downloaded and installed, they are copied into the system's default location for configuration files (which in my case happened to be `/root/.config/dipconf/`). Note that this info can be printed out using `sudo dipscan CONF` command, since the system's default location may vary from system to system. . And that's exactly the location, which metadata for the tool's run is loaded from. Therefore, the instances of default files which were downloaded from git remain untouched during the rest of the time of this world. Every time you execute this tool, it looks for `dipmodules.py` and `run.cfg` in the system’s default location for configuration files (unless overwritten using `-r` or `-m` option)(see `--help` for more info).
