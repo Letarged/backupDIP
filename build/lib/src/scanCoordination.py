@@ -20,7 +20,8 @@ from src import classes
 
 def safe_import(module_path):
     try:
-        return importlib.import_module(module_path)
+        x = importlib.import_module(module_path)
+        return x
     except:
         # print("MODULE PATH: " + module_path)
         path = module_path.rsplit("/", 1)[0]
