@@ -9,7 +9,10 @@ def craftDnsreconCommand(target, port, params):
 
 
     if check_ip_or_url(target) == "ip":
-        dns_target = socket.gethostbyaddr(target)[0]
+        try: 
+            dns_target = socket.gethostbyaddr(target)[0]
+        except:
+            return ""
     elif check_ip_or_url(target) == "url":
         dns_target = target
         

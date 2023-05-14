@@ -9,21 +9,21 @@ def dummy(x,y,z):
 def run(cmd, target,port, module, paramsprint_according_to_outputmanagment, outputmanagment):
     if check_ip_or_url(target) == "ip":
         ftp_target_ip = target
-    elif check_ip_or_url(target) == "url":
+    else:
         ftp_target_ip =  socket.gethostbyname(target)
-
+    
+    
     try:
         ftp = ftplib.FTP()
-        ftp.connect(ftp_target_ip, port)
-        ftp.login()
+        ftp.connect(ftp_target_ip, port.num)
+       
         
         # Check if anonymous login is allowed
-        if ftp.login('anonymous', ''):
+        if "Anonymous access granted" in ftp.login('anonymous', ''):
             paramsprint_according_to_outputmanagment(outputmanagment, colored(f'[+] {ftp_target_ip} allows anonymous FTP login', 'green', attrs=['bold']))
         else:
             paramsprint_according_to_outputmanagment(outputmanagment, colored(f'[-] {ftp_target_ip} does not allow anonymous FTP login', 'red', attrs=['bold']))
         
-        # Close the FTP connection
         ftp.quit()
 
     except:

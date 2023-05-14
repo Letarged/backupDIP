@@ -1,3 +1,4 @@
+from operator import mod
 import docker # for docker images and containers managment
 import configparser # for parsing the configuration file
 from ftplib import FTP

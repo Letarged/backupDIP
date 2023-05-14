@@ -106,7 +106,7 @@ def process_cmd_arguments():
 
     if outputmanagement['outputfile'] != None:
         if not os.path.exists(outputmanagement['outputfile']):
-            os.makedirs(outputmanagement['outputfile'])
+            os.makedirs(os.path.dirname(outputmanagement['outputfile']))
         now = datetime.datetime.now()
         date_str = now.strftime("%dth of %B, %H:%M")
         text = "\n" + f"Created on {date_str}." + "\n\n"

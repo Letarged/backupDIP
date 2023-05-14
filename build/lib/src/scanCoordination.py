@@ -8,7 +8,7 @@ import netifaces
 import ipaddress
 import configparser
 import importlib.util
-import src.portFuncs as funcs
+import src.portFuncs as portFuncs
 import src.secondary.scanCoordinationAssistant as assist
 from termcolor import colored
 from src.secondary import dipmodules
@@ -84,7 +84,7 @@ def get_modules_because_possible_overwrite(overwrite, default_modules):
     config_dir_in_this_system = appdirs.user_config_dir("dipconf")
     destination_default_dipmodules = os.path.join(config_dir_in_this_system, "dipmodules.py")
 
-    module_result = None
+    module_result = default_modules # None WAS
     if not overwrite['modulefile'] == None:
         module_file_path = overwrite['modulefile']
     else:
@@ -231,7 +231,7 @@ def portScanningPhase(targetS, config, settings):
         for target in targetS:
             nmap_command, param = assist.craftNmapCommand(
                 target, config, settings['NmapOutput']['output'])
-            nmap_found_targets[target] = funcs.thePortScan(
+            nmap_found_targets[target] = portFuncs.thePortScan(
                 "nmap", nmap_command, param)
             # if debug_on: print("Went for " + str(target) + str(found_targets[target]))
 
@@ -242,7 +242,7 @@ def portScanningPhase(targetS, config, settings):
                 target, config, settings['MasscanOutput']['output'])
 
             try:
-                masscan_found_target[target] = funcs.thePortScan(
+                masscan_found_target[target] = portFuncs.thePortScan(
                     "masscan", masscan_command, param)
             except:
                 masscan_found_target[target] = classes.ip(target, None)
@@ -287,9 +287,9 @@ def performScanType1(targetS, overwrite, outputmanagment):
 
     type_one_file = get_type_one_file_because_possible_overwrite(
         overwrite, dir_path)
+    
     modules = get_modules_because_possible_overwrite(
         overwrite, dipmodules.modules)
-
     settings_file = os.path.join(dir_path, "secondary", "conf", "settings.cfg")
 
     config.read(type_one_file)
@@ -327,7 +327,6 @@ def performScanType1(targetS, overwrite, outputmanagment):
                     #     path_of_command_cretor)
 
                     correctModule_of_create_command_fun = safe_import(path_of_command_cretor)
-
                     cmd = getattr(
                         correctModule_of_create_command_fun,
                         command_creator_fun
@@ -358,6 +357,7 @@ def performScanType1(targetS, overwrite, outputmanagment):
                     if not modules[switched_on_module]['image'] == None and not '_abort_regular_run' in modules[switched_on_module]:
                         print_according_to_outputmanagment(
                             outputmanagment, launchTheScan(modules[switched_on_module], cmd))
+                   
 
                     """
                     # try:
@@ -422,8 +422,8 @@ def performScanType0(scan_after_discovery, overwrite, outputmanagment):
     for target in potentional_targets:
         discovery_command, parameter = assist.craftHostDiscoveryNmapCommand(
             target, config, settings['NmapOutput']['output'])
-        discovery_result = funcs.launchTheScan(
-            "nmap", discovery_command, parameter)
+        discovery_result = portFuncs.thePortScan(
+            "Nmap_s", discovery_command, parameter)
         print_according_to_outputmanagment(
             outputmanagment, discovery_result[0])
 

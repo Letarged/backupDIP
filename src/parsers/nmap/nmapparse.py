@@ -44,14 +44,12 @@ def parse_output(output):
     data = ""
     for line in output.logs(stream=True):
         data += line.decode("utf-8")
-   # if debug_on: print(data)
-   # if debug_on: print("#############")
-   # if debug_on: print("#############")
-   
+    
     data = json.dumps(xmltodict.parse(data), indent=4)
     jsonStr = json.loads(data)
     if n_hosts_up(jsonStr) == 0:
       return None
+    # print(jsonStr)
     tmp, target_ip = nmap_output_proccess(jsonStr)
 
     return classes.ip(target_ip, tmp)

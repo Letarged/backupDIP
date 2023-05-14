@@ -32,6 +32,7 @@ sudo dipscan --help
 # in repo, by default, the config has all the modules switched on
 sudo dipscan SINGLE hackthissite.org
 ```
+!! CEWL CHANGE !!
 
 ## Modules
 The whole tool is composed of several modules. It is designed to be easy to add another modules according to the user's specific needs. In general, each module consists of:

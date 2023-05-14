@@ -3,6 +3,7 @@ from src.dckrChiefExecutive import launchTheScan
 from src.cores.helper import getFullUrl_from_URI
 from termcolor import colored
 import os
+import requests
 
 # def craftCewlCommand(target,port,params):
 #     cewl_target = getFullUrl_from_URI(target, port, 1)
@@ -13,6 +14,15 @@ import os
 #     )
 #     return " --help >> /dev/null"
 
+
+
+def possible_to_connect_to_url(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # If the response was successful, no Exception will be raised
+        return True
+    except:
+        return False
 
 def craftCewlCommand(target, port, outputfile):
     cewl_target = getFullUrl_from_URI(target, port, 1)
@@ -27,6 +37,9 @@ def craftCewlCommand(target, port, outputfile):
 # def run(target,port, modulename, params):
 def run(cmd, target, port, module,print_according_to_outputmanagment, outputmanagment):
    # command = craftCewlCommand(target, port, module['outputfolder'])
+    if not possible_to_connect_to_url(getFullUrl_from_URI(target, port, 1)):
+        print("Not possible to connect to: " + str(getFullUrl_from_URI(target, port, 1)))
+        return
     result = launchTheScan(
         module, 
         cmd, 
@@ -41,4 +54,5 @@ def run(cmd, target, port, module,print_according_to_outputmanagment, outputmana
         for element in result:
             file.write(element + "\n")
     # print(colored("Custom word list generated into: ", 'grey') + colored(module['outputfolder'], 'green'))
-    print_according_to_outputmanagment(outputmanagment, colored("Custom word list generated into: ", 'blue') + colored(dest_file_to_write_wordlist_to, 'green'))
+    # print_according_to_outputmanagment(outputmanagment, colored("Custom word list generated into: ", 'blue') + colored(dest_file_to_write_wordlist_to, 'green'))
+    print_according_to_outputmanagment(outputmanagment, colored("Custom word list (port " + str(port.num) + ") generated into: ", 'blue') + colored(dest_file_to_write_wordlist_to, 'green'))

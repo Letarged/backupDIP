@@ -13,6 +13,12 @@ modules = {
         'params' : '-sS',
         'parser' : 'src.parsers.nmap.nmapparse.parse_output'
     },
+     'Nmap_s': {
+        'image' : 'dnmap:v1',
+        'service' : '',
+        'params' : '-sn',
+        'parser' : 'src.parsers.nmap.nmapdiscoveryparse.parse_output'
+    },
     'Shcheck_basic' : {
         'image' : 'dshcheck:v1',
         'service' : 'https',
@@ -23,6 +29,14 @@ modules = {
     'Whatweb' : {
         'image' : 'dwhatweb:v1',
         'service' : 'https',
+        'params' : '-a1',
+        'command' : 'src.cores.whatweb.whatweb_core.craftWhatwebCommand',
+        'parser' : 'src.parsers.whatweb.whatwebparse.parse_output_basic'
+
+    },
+    'Whatweb_http' : {
+        'image' : 'dwhatweb:v1',
+        'service' : 'http',
         'params' : '-a1',
         'command' : 'src.cores.whatweb.whatweb_core.craftWhatwebCommand',
         'parser' : 'src.parsers.whatweb.whatwebparse.parse_output_basic'
@@ -49,7 +63,17 @@ modules = {
         'additional' : 'src.cores.cewl.cewl_core.run',
         'command' : 'src.cores.cewl.cewl_core.craftCewlCommand',
         'parser' : 'src.parsers.cewl.cewlparse.parse_output',
-        'outputfolder' : '/home/kali/cewl_outs',
+        'outputfolder' : '/home/kali/cewl_outs/https',
+        '_abort_regular_run': ''
+    },
+    'Cewl_http' : {
+        'image' : 'dcewl:v1',
+        'service' : 'http',
+        'params' : '', # no parameters
+        'additional' : 'src.cores.cewl.cewl_core.run',
+        'command' : 'src.cores.cewl.cewl_core.craftCewlCommand',
+        'parser' : 'src.parsers.cewl.cewlparse.parse_output',
+        'outputfolder' : '/home/kali/cewl_outs/http',
         '_abort_regular_run': ''
     },
     'NmapSSL' : {
@@ -75,7 +99,7 @@ modules = {
     },
     'ftpAnonLogin' :{
         'image' : None,
-        'service' : 'https',
+        'service' : 'ftp',
         'params' :'',
         'command' : 'src.cores.ftpanon.ftpanon_core.dummy',
         'additional' : 'src.cores.ftpanon.ftpanon_core.run',
