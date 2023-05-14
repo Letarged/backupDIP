@@ -5,13 +5,13 @@
 __pycache__/
 
 # Build directory
-build/
+#build/
 
 # Distribution directory
-dist/
+#dist/
 
 # Egg-info directory
-*.egg-info/
+#*.egg-info/
 
 # For docummentation purposes
-setup.py
+#setup.py
