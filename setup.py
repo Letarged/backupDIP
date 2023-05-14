@@ -12,7 +12,7 @@ import os
 import sys
 
 destination_cfg_file = ""
-PACKAGE_NAME = "DIP"
+PACKAGE_NAME = "dipscan"
 
 def copy_config():
     config_dir_in_this_system = appdirs.user_config_dir("dipconf")
