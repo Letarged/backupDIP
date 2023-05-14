@@ -1,35 +1,22 @@
-#!/usr/bin/python3
-import ftplib
+#!/usr/bin/env python3
+
+import requests
 from termcolor import colored
-def foo():
-    ftp_target_ip = "192.168.0.206"
-    port = 21
 
-    ftp = ftplib.FTP()
-    ftp.connect(ftp_target_ip, port)
-   # ftp.login()
-    print("Logged")
-    response = (ftp.login('anonymous', ''))
-    if "Anonymous access granted" in response:
-        print("Should be a success?")
+def get_robots_txt(target):
+    url = target + "/robots.txt"
+    response = requests.get(url)
 
-    try:
-        ftp = ftplib.FTP()
-        ftp.connect(ftp_target_ip, port)
-        ftp.login()
-        print("Logged")
-        print(ftp.login('anonymous', ''))
-        # Anonymous access granted
-        # Check if anonymous login is allowed
-        if ftp.login('anonymous', ''):
-            print(colored(f'[+] {ftp_target_ip} allows anonymous FTP login', 'green', attrs=['bold']))
-        else:
-            print( colored(f'[-] {ftp_target_ip} does not allow anonymous FTP login', 'red', attrs=['bold']))
-        
-        # Close the FTP connection
-        ftp.quit()
+    result = ''
 
-    except:
-        print( "FTP not accessible.")
+    if response.status_code == 200:
+        result += colored(f'{url}:\n', 'green')
+        content = response.text.split('\n')
+        for line in content:
+            result += colored(f'\t{line}\n', 'blue')
+    else:
+        result += colored(f'{url}: ', 'yellow', attrs=['dark']) + colored("not found", 'red', attrs=['bold'])
+    
+    return result
 
-foo()
+print(get_robots_txt('https://192.168.0.206/bWAPP'))

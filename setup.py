@@ -59,7 +59,7 @@ class CustomInstallCommand(install):
         subprocess.call(['docker', 'build', '-t', 'dmasscan:v1', './imagesFromDocker/masscan'])
         subprocess.call(['docker', 'build', '-t', 'ddnsrecon:v1', './imagesFromDocker/dnsrecon'])
         subprocess.call(['docker', 'build', '-t', 'dgobuster:v1', './imagesFromDocker/gobuster'])
-        subprocess.call(['docker', 'build', '-t', 'gsslscan:v1', './imagesFromDocker/sslscan'])
+        subprocess.call(['docker', 'build', '-t', 'dsslscan:v1', './imagesFromDocker/sslscan'])
 
 
 setup(
