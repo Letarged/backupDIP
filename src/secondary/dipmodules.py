@@ -77,7 +77,7 @@ modules = {
         'additional' : 'src.cores.cewl.cewl_core.run',
         'command' : 'src.cores.cewl.cewl_core.craftCewlCommand',
         'parser' : 'src.parsers.cewl.cewlparse.parse_output',
-        'outputfolder' : '/home/kali/cewl_outs/https',
+        'outputfolder' : '/home/dipscanoutput',
         '_abort_regular_run': ''
     },
     'Cewl_http' : {
