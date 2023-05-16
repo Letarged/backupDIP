@@ -45,7 +45,7 @@ options:
   -h, --help            show this help message and exit
   -o OUTPUTFILE, --outputfile OUTPUTFILE
                         File where output will be saved. In not specified, the
-                        output won`t be written to any file.
+                        output wont be written to any file.
   -m MODULEFILE, --modulefile MODULEFILE
                         Path of dipmodules file, which overwrite the deafult one.
   -r RUNCONFIG, --runconfig RUNCONFIG
@@ -55,7 +55,7 @@ options:
                         Force to continue even if a network problem was detected. May lead to errors..
 
 Usage of this tool for attacking targets without prior mutual consent is
-illegal. It is the user`s responsibility to obey all applicable local, state
+illegal. It is the users responsibility to obey all applicable local, state
 and federal laws.
 
 ```
