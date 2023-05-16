@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/secondary/dipmodules.py
-# Description: 
+# Description: Mapping modules
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

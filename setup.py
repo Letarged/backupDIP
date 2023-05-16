@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+
 # ------------------------------
 # File: ./setup.py
 # Description: 
@@ -12,7 +15,6 @@
 # FACULTY OF INFORMATION TECHNOLOGY
 # ------------------------------
 
-#!/usr/bin/python3
 
 
 from setuptools import setup, find_packages
