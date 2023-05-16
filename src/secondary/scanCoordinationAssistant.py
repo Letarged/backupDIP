@@ -1,3 +1,17 @@
+# ------------------------------
+# File: ./src/secondary/scanCoordinationAssistant.py
+# Description: 
+#
+# Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
+# Year: 2023
+# Tool: dipscan v0.1.0
+# Author: Michal Rajecký
+# Email: xrajec01@stud.fit.vutbr.cz
+#
+# BRNO UNIVERSITY OF TECHNOLOGY
+# FACULTY OF INFORMATION TECHNOLOGY
+# ------------------------------
+
 import ipaddress
 from urllib.parse import urlparse
 import socket

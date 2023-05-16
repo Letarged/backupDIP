@@ -1,8 +1,11 @@
+#!/bin/bash
+
+find . -name '*.py' -exec sh -c 'echo """\
 # ------------------------------
-# File: ./src/cores/nmap/nmap_core.py
+# File: {}
 # Description: 
 #
-# Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
+# Mster'\''s Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023
 # Tool: dipscan v0.1.0
 # Author: Michal Rajecký
@@ -11,6 +14,4 @@
 # BRNO UNIVERSITY OF TECHNOLOGY
 # FACULTY OF INFORMATION TECHNOLOGY
 # ------------------------------
-
-def run():
-    pass
+""" > {}.tmp && cat {} >> {}.tmp && mv {}.tmp {}' \;
