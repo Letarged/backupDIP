@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/parsers/sslscan/sslscanparse.py
-# Description: 
+# Description: Functions for running sslscan module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

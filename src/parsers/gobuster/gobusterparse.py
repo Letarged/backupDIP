@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/parsers/gobuster/gobusterparse.py
-# Description: 
+# Description: Functions for running gobuster module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

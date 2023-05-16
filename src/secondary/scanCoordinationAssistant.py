@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/secondary/scanCoordinationAssistant.py
-# Description: 
+# Description: Module for coordinating execution of modules
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

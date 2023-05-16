@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/parsers/masscan/masscanparse.py
-# Description: 
+# Description: Functions for running masscan module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

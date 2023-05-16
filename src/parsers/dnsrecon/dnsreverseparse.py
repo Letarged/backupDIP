@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/parsers/dnsrecon/dnsreverseparse.py
-# Description: 
+# Description: Functions for running dnsreverse module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

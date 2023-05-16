@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/parsers/shcheck/patterns.py
-# Description: 
+# Description: Pattersn for shcheck module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/dckrChiefExecutive.py
-# Description: 
+# Description: Module for the execution of docker
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

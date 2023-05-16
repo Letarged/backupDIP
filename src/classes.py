@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/classes.py
-# Description: 
+# Description: Auxiliary classes
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/cores/shcheck/shckech_core.py
-# Description: 
+# Description: Module providing functionallity for shcheck module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

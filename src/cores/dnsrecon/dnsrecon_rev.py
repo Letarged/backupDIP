@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/cores/dnsrecon/dnsrecon_rev.py
-# Description: 
+# Description: Module providing functionallity for dnsrecon_rev module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/parsers/shcheck/shcheckparse.py
-# Description: 
+# Description: Functions for running shcheck module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

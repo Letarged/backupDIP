@@ -3,7 +3,7 @@
 
 # ------------------------------
 # File: ./setup.py
-# Description: 
+# Description: Installation file of the framewrok, including all the docker images
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

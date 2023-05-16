@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/portFuncs.py
-# Description: 
+# Description: Auxiliary functions for port scanning
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

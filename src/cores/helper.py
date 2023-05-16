@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/cores/helper.py
-# Description: 
+# Description: Auxiliary functions for modules
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

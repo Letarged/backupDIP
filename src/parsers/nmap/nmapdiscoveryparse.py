@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/parsers/nmap/nmapdiscoveryparse.py
-# Description: 
+# Description: Functions for running nmap_S module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/parsers/cewl/cewlparse.py
-# Description: 
+# Description: Functions for running cewl module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

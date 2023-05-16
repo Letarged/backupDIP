@@ -1,6 +1,8 @@
+#!/usr/bin/python3
+
 # ------------------------------
 # File: ./src/p.py
-# Description: 
+# Description: Main module containing main function
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023
@@ -12,7 +14,7 @@
 # FACULTY OF INFORMATION TECHNOLOGY
 # ------------------------------
 
-#!/usr/bin/python3
+
 import sys
 import os
 from os import path

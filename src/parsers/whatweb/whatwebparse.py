@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/parsers/whatweb/whatwebparse.py
-# Description: 
+# Description: Functions for running whatweb module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

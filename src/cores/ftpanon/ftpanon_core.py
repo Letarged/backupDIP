@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/cores/ftpanon/ftpanon_core.py
-# Description: 
+# Description: Module providing functionallity for ftpanon module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

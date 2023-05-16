@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/argParser.py
-# Description: 
+# Description: Module for parsing command line arguments
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023

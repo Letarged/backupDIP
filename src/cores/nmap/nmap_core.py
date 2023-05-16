@@ -1,6 +1,6 @@
 # ------------------------------
 # File: ./src/cores/nmap/nmap_core.py
-# Description: 
+# Description: Module providing functionallity for nmap module
 #
 # Mster's Thesis: Tool for Automated Penetration Testing of Web Servers
 # Year: 2023
