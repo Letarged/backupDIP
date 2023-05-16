@@ -80,16 +80,12 @@ def process_cmd_arguments():
     target_none_discovery_mode = sp.add_parser('DISC', help="Target discovery on the available interfaces.")
     conf_description = sp.add_parser('CONF', help="Prints info about location of config file.")
 
-   # target_as_list.add_argument('-f', '--file', help="Location of the file", required=True)
     target_as_list.add_argument('file', help="Location of the non-empty file")
     target_as_list.add_argument('-t', '--type', help="Type of scan. Default=1", choices=['1'], default='1')
     target_as_single.add_argument('address', help="Target address")
     target_as_single.add_argument('-t', '--type', help="Type of scan. Default=1", choices=['1'], default='1')
     target_none_discovery_mode.add_argument('-c', '--cont', choices=['0', '1'], default='0', help="If desired, the script can automatically perform next scan on all the discovered targets. Default = 0 = do not continue")
 
-
-   # sp_target_as_single_address = sp.add_parser('-s', '--single', help="Single target specified. Either an IP or a web address.")
-    #sp_target_as_list = sp.add_parser('-f', '--file', help="Text file containing list of target. Each target on a new line.")
 
     args = parser.parse_args()
 
@@ -106,7 +102,7 @@ def process_cmd_arguments():
 
     if outputmanagement['outputfile'] != None:
         if not os.path.exists(outputmanagement['outputfile']):
-            os.makedirs(os.path.dirname(outputmanagement['outputfile']))
+            os.makedirs(os.path.dirname(outputmanagement['outputfile']),exist_ok=True)
         now = datetime.datetime.now()
         date_str = now.strftime("%dth of %B, %H:%M")
         text = "\n" + f"Created on {date_str}." + "\n\n"

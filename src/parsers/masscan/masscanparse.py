@@ -96,12 +96,9 @@ def parse_output(output):
     data = ""
     for line in output.logs(stream=True):
         data += line.decode("utf-8")
-    # print("-------")
-    # print(data)
-    # print("-------")
+   
     data = data.split("\n",3)[3].strip() # remove the annoying masscan header lines
     data = data[:data.rfind("\nrate")+1] # remove last line
-   # data = data + "]"
     
     jsonStr = json.loads(data)
 

@@ -12,11 +12,9 @@ class port:
         
 
     def __str__(self):
-        # return (str(self.num) + " : " + str(self.state) + " :: " + str(self.port_service))
         result =  ("\t" + colored(str(self.num), "yellow", attrs=["bold"]) 
         + " : " 
         + (colored(str(self.state) , "green") if str(self.state) == 'open' else colored(str(self.state), "red")) 
-        # colored(str(self.state) + " :: ", "cyan")
         + " :: "
         + colored(str(self.port_service), "blue", attrs=["bold"]))
         return result

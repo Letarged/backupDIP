@@ -3,33 +3,13 @@ from urllib.parse import urlparse
 
 
 def ip_to_range(ip):
-    """
-    Converts an IPv4 address to an IP range of 2 IPs, starting with the given IP
-    and ending with the IP which is plus one. For example 8.8.8.8-8.8.8.9
-    
-    Args:
-    - ip (str or int): the IPv4 address to convert
-    
-    Returns:
-    - range_str (str): the IP range as a string
-    """
-    # Convert the IP to a string if it's an integer
     if isinstance(ip, int):
         ip = str(ip)
     
-    # Split the IP into its four parts
     parts = ip.split('.')
-    
-    # Convert each part to an integer
     parts = [int(part) for part in parts]
-    
-    # Increment the last part of the IP
     parts[-1] += 1
-    
-    # Convert each part back to a string
     parts = [str(part) for part in parts]
-    
-    # Join the parts back together with dots to form the IP range
     range_str = ip + '-' + '.'.join(parts)
     
     return range_str

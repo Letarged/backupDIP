@@ -16,12 +16,3 @@ def craftWhatwebCommand(target, port, params):
     )
     return command
 
-# def run(target, port, modulename,params ):
-    
-#     whatweb_result = launchTheScan(
-#         modules[modulename],
-#         whatweb_cmd
-#     )
-#     print(whatweb_result)
-#     return
-    

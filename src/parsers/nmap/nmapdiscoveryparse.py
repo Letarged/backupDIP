@@ -10,10 +10,7 @@ def format_discovered_hosts(ip_list):
         output += f"        {colored(ip, 'green')}\n"
     return output
 
-"""
-  Returns list of IP targets.
-    (this function is for "-sn" parameter of nmap)
-"""
+
 def nmap_output_proccess_sn(jsonStr):
   tmp = []
   for i in jsonStr["nmaprun"]["host"]:

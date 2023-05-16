@@ -9,6 +9,9 @@ def craftDnsReverseLookupCommand(target, port, params):
         dns_target = target
     elif check_ip_or_url(target) == "url":
         dns_target = socket.gethostbyname(target)
+    else:
+         dns_target = ""
+        
         
    
     dns_target = ip_to_range(dns_target)

@@ -15,6 +15,8 @@ def craftDnsreconCommand(target, port, params):
             return ""
     elif check_ip_or_url(target) == "url":
         dns_target = target
+    else:
+         dns_target = ""
         
 
     command = (

@@ -9,8 +9,7 @@ def craftSSLSCANCommand(target, port, params):
         params + 
         " " + 
         ssl_target #+ 
-       # " -w " +
-        #outputfile
+
     )
     return command
 

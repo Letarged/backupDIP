@@ -33,8 +33,7 @@ def parse_output_basic(output):
         jsonStr = json.loads(data)
     except:
         return ""
-   # print(jsonStr[0]["target"])
-   # print(jsonStr[1]["target"])
+ 
     
     return extract_info_from_json(jsonStr)
 

@@ -3,13 +3,8 @@ import xmltodict
 from termcolor import colored
 
 def extract_common_name(json_str):
-    # Convert the JSON string to a Python dictionary
-   # data = json.loads(json_str)
 
-    # Extract the value of the "tldr" key
     tldr = json_str.get("tldr", "")
-
-    # Extract the "commonName" value from the "tldr" string
     start_index = tldr.find("commonName=")
     if start_index == -1:
         return ""
@@ -65,8 +60,6 @@ def process_ssl_json(jsonSSL):
     tmp["iptype"] = jsonSSL["nmaprun"]["host"]["address"]["@addrtype"]
     tmp["hostname"] = jsonSSL["nmaprun"]["host"]["hostnames"]["hostname"]
     tmp["service"] = jsonSSL["nmaprun"]["host"]["ports"]["port"]["service"]
-    #tmp["XXX"] =  jsonSSL["nmaprun"]["host"]["ports"]["port"]["script"]["table"][1]["elem"][0]["@key"]
-    #tmp[jsonSSL["nmaprun"]["host"]["ports"]["port"]["script"]["table"][1]["elem"][0]["@key"]] = jsonSSL["nmaprun"]["host"]["ports"]["port"]["script"]["table"][1]["elem"][0]["#text"]
     
     size_of_arr = len(jsonSSL["nmaprun"]["host"]["ports"]["port"]["script"]["table"][1]["elem"])
     for i in range(size_of_arr):
@@ -105,6 +98,4 @@ def parse_output(output):
     
     data = json.dumps(xmltodict.parse(data), indent=4)
     jsonStr = json.loads(data)
-
-    # return (print_ssl_cert_info(jsonStr))
     return(print_ssl_cert_info(process_ssl_json(jsonStr)))

@@ -23,14 +23,10 @@ def safe_import(module_path):
         x = importlib.import_module(module_path)
         return x
     except:
-        # print("MODULE PATH: " + module_path)
         path = module_path.rsplit("/", 1)[0]
         module_itself = module_path.split("/")[-1]
-        # print("WHAT IS APPENDED: " + path)
-        # print("MODULE ITSELF: " + module_itself)
         sys.path.append(path)
         return importlib.import_module(module_itself)
-    # path = txt.rsplit(".", 1)[0]
 
 
 
@@ -233,7 +229,6 @@ def portScanningPhase(targetS, config, settings):
                 target, config, settings['NmapOutput']['output'])
             nmap_found_targets[target] = portFuncs.thePortScan(
                 "nmap", nmap_command, param)
-            # if debug_on: print("Went for " + str(target) + str(found_targets[target]))
 
     if config['Masscan_s'].getboolean('switched_on'):
         doneAtLeastOneScan = True
@@ -320,12 +315,7 @@ def performScanType1(targetS, overwrite, outputmanagment):
                 if (modules[switched_on_module]['service'] == open_port.port_service):
                     path_of_command_cretor, command_creator_fun = divideField(
                         modules[switched_on_module]['command'])
-                    # print("path_of_command_cretor: " + str(path_of_command_cretor))
-                    # print("command_creator_fun: " + str(command_creator_fun))
-
-                    # correctModule_of_create_command_fun = importlib.import_module(
-                    #     path_of_command_cretor)
-
+                
                     correctModule_of_create_command_fun = safe_import(path_of_command_cretor)
                     cmd = getattr(
                         correctModule_of_create_command_fun,
@@ -339,8 +329,7 @@ def performScanType1(targetS, overwrite, outputmanagment):
                     if 'additional' in modules[switched_on_module]:
                         path_of_additional, func_of_additional = divideField(
                             modules[switched_on_module]['additional'])
-                        # correctModule_of_additional = importlib.import_module(
-                        #     path_of_additional)
+                        
                         correctModule_of_additional = safe_import(path_of_additional)
 
                         getattr(
@@ -358,37 +347,6 @@ def performScanType1(targetS, overwrite, outputmanagment):
                         print_according_to_outputmanagment(
                             outputmanagment, launchTheScan(modules[switched_on_module], cmd))
                    
-
-                    """
-                    # try:
-                    #     cmd = getattr(
-                    #             correctModule_of_create_command_fun,
-                    #             command_creator_fun
-                    #             )(
-                    #     print           target,
-                    #                 open_port,
-                    #                 modules[switched_on_module]['params']
-                    #             )
-                        
-                    #     print()
-                    #     if 'additional' in modules[switched_on_module]:
-                    #         path_of_additional, func_of_additional = divideField(modules[switched_on_module]['additional'])
-                    #         correctModule_of_additional = importlib.import_module(path_of_additional)
-                    #         getattr(
-                    #             correctModule_of_additional,
-                    #             func_of_additional
-                    #         )(
-                    #             cmd,
-                    #             target,
-                    #             open_port,
-                    #             modules[switched_on_module]
-                    #         )
-                    #     if not '_abort_classic' in modules[switched_on_module]: 
-                    #         print(launchTheScan(modules[switched_on_module],cmd))
-                    # except:
-                    #     print(switched_on_module + " finished with error..")
-                    #     continue
-                    """
 
     return
 

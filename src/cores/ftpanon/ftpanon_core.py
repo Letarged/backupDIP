@@ -28,19 +28,3 @@ def run(cmd, target,port, module, paramsprint_according_to_outputmanagment, outp
 
     except:
         paramsprint_according_to_outputmanagment(outputmanagment, "FTP not accessible.")
-
-    """
-    if check_ip_or_url(target) == "ip":
-        ftp_target_ip = target
-    elif check_ip_or_url(target) == "url":
-        dns_target_ip =  socket.gethostbyname(target)
-
-    ftp = ftplib.FTP(dns_target_ip)
-    ftp.login("anonymous", "")
-    if ftp.getwelcome().startswith("220"):
-        print (colored("FTPAnonymous login"))
-        print("Anonymous login successful!")
-    else:
-        print("Anonymous login failed.")
-    ftp.quit()
-    """

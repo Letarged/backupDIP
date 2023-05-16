@@ -39,18 +39,7 @@ def parse_output(output):
     
     # [0] if shcheck.py is called againts 1 target at a time
     return (patterns.generate_output(shchecked_targets[0].missing, shchecked_targets[0].address))
-  #  return shchecked_targets[0] 
 
 
-    
-    print(shchecked_targets[0].address)
-    print()
-    print(shchecked_targets[0].presentList)
-    print()
-    print(shchecked_targets[0].presentDict)
-    print()
-    print(shchecked_targets[0].missing[2])
-    print()
-    print(shchecked_targets[0].numOfPresent)
-    print(shchecked_targets[0].numOfMissing)
+   
 

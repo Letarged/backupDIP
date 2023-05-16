@@ -33,21 +33,5 @@ def parse_output(output):
     final_output = {}
     for code in unique_codes_received:
         final_output[code] = [k for k, v in array.items() if v == code] # all the elements with the same return code
-            
-    '''   
-    print(final_output[200])
-    print("------------")
-    print(final_output[202])
-    print("------------")
-    print(final_output[401])
-    print("------------")
-    print(final_output[301])
-    print("------------")
-    '''
-
-    # spraviť z tohto json
-    
-  #  print(tmp)
-    
-    # return 
+   
 

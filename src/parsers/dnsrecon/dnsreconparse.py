@@ -49,4 +49,3 @@ def parse_output(output):
 
 
     return (extract_txt_records(group_by_type(jsonStr)))
-    # finish testing and organizing json output

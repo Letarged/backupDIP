@@ -1,12 +1,10 @@
 #!/usr/bin/python3
 import sys
 import os
-from os import sys, path
+from os import path
 from termcolor import colored
 
-#sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# Good page for NMAP 
-# https://securitytrails.com/blog/nmap-commands 
+
 
 import src.argParser as argParser
 import src.scanCoordination as scanCoordination

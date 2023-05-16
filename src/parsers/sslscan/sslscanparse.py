@@ -2,21 +2,6 @@ import json
 import xmltodict
 from termcolor import colored
 
-"""
-def check_tls_compression(jsonStr):
-    json_string = jsonStr['document']['ssltest']
-    # Check if "tlscompression" key is present in the JSON
-    if "tlscompression" not in json_string:
-        print("HERE")
-        return ""
-    
-    # Check the value of the "allowed" key under "tlscompression"
-    allowed = json_string["tlscompression"]["@allowed"]
-    if allowed == "0":
-        return colored("TLS Compression: ", "green") + colored("not allowed", "green")
-    else:
-        return colored("TLS Compression: ", "red", attrs=['dark']) + colored("allowed", "red")
-"""
 
 def renegotiation_supported(jsonStr):
     json_string = jsonStr['document']['ssltest']

@@ -14,6 +14,9 @@ def craftGobusterCommand(target, port, params):
         gobuster_target = getFullUrl_from_URI(x, port, 1)
     elif check_ip_or_url(target) == "url":
         gobuster_target = getFullUrl_from_URI(target, port, 1)
+    else:
+         gobuster_target = ""
+        
 
     command = (
         # "dir " +
@@ -26,4 +29,3 @@ def craftGobusterCommand(target, port, params):
 
 
 
-    print(result)
