@@ -22,6 +22,8 @@ sudo dipscan --help
 sudo dipscan SINGLE hackthissite.org
 ```
 
+Please note, there is a **cewl** module in the file describing integrated modules, which, among other information, specifies path for the output of its run. Please modify the path according to your preferences (see below).
+
 ## Running the tool 
 
 ```bash
@@ -43,7 +45,7 @@ options:
   -h, --help            show this help message and exit
   -o OUTPUTFILE, --outputfile OUTPUTFILE
                         File where output will be saved. In not specified, the
-                        output won't be written to any file.
+                        output won`t be written to any file.
   -m MODULEFILE, --modulefile MODULEFILE
                         Path of dipmodules file, which overwrite the deafult one.
   -r RUNCONFIG, --runconfig RUNCONFIG
@@ -53,7 +55,7 @@ options:
                         Force to continue even if a network problem was detected. May lead to errors..
 
 Usage of this tool for attacking targets without prior mutual consent is
-illegal. It is the user's responsibility to obey all applicable local, state
+illegal. It is the user`s responsibility to obey all applicable local, state
 and federal laws.
 
 ```
@@ -61,8 +63,11 @@ and federal laws.
 As the help message says, this tool offers 4 operating modes:
 
 **SINGLE** - where a single target is expected to be specified
+
 **LIST**   - for list of targets
+
 **DISC**   - discovery mode, scanning the subnet and optionally continuing with a regular scan (`-c1` option)
+
 **CONF**   - print info about the location of modules file and configuration file, which need to be modified in order to 
 
 Additionaly, there are following options:
