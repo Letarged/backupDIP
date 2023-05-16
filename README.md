@@ -8,7 +8,7 @@
 Before the installation, there are few dependencies which must be met to run the framework: `requirements.txt`
 
 In order to install the tool, run `setup.py` as shown here:
-```bash
+```
 cd backupDIP
 sudo ./setup.py install
 ```
